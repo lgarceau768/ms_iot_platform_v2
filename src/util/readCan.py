@@ -20,7 +20,7 @@ def hexify_array(hex_array):
 def hexify_int(number):
         return "".join("0x{:02x}".format(number))
 
-@asycnio.coroutine
+@asyncio.coroutine
 async def readData():
     # will append data to const.CAN_DATA
     try:

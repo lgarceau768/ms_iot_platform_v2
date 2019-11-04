@@ -34,21 +34,21 @@ async def readData():
     logger.get_logger().info('Created CAN Bus')
     filters = config.get('Can', 'filters').strip().lower().split(',')
 
-    while True:
-        #print('reading')
-        try:
-            message = can_bus.recv()
-            if message is not None:
-                canID = hexify_int(message.arbitration_id)
-                if canID.lower() not in filters:
-                    canMessage = hexify_array(message.data)
-                    timestamp = epoch_to_datetime(message.timestamp)
-                    message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
-                    messageObj = (timestamp, canID, canMessage)
-                    const.CAN_DATA.append(messageObj)
-                    #print(str(const.CAN_DATA))
-        except Exception as e:
-            error = traceback.format_exc()
-            logger.get_logger().error(error)
-            logger.get_logger().error(str(e))  
+    #while True:
+    print('reading')
+    try:
+        message = can_bus.recv()
+        if message is not None:
+            canID = hexify_int(message.arbitration_id)
+            if canID.lower() not in filters:
+                canMessage = hexify_array(message.data)
+                timestamp = epoch_to_datetime(message.timestamp)
+                message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
+                messageObj = (timestamp, canID, canMessage)
+                const.CAN_DATA.append(messageObj)
+                #print(str(const.CAN_DATA))
+    except Exception as e:
+        error = traceback.format_exc()
+        logger.get_logger().error(error)
+        logger.get_logger().error(str(e))  
         

@@ -31,69 +31,69 @@ async def interpret():
     hygieneTimeDelta = abs(hygieneTimeLast-compTimer)
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     print('running')
-    while True:
-        print('looping')
-        compTimer = time.time()/60
-        timestamp = datetime.datetime.now().isoformat()
-        timestamp = ('timestamp', str(timestamp))
-        messages = []
-        # need to interpret the can data
-        for data in const.CAN_DATA:
-            if len(data) != 3:
-                const.CAN_DATA.remove(data)
-            # need to see if this is a new/old message
-            else:
-                # runtime
-                runTimeDelta = abs(runTimeLast-compTimer)
-                if runTimeDelta >= runTimeInt:
-                    messages.append([('runTime', str(runTimeInt/60.0))])
-                    runTimeLast = compTimer
-                
-                # hygiene
-                hygieneTimeDelta = abs(hygieneTimeLast-compTimer)
-                if hygieneTimeDelta >= hygieneTimeInt:
-                    # need to read the old data
-                    hygData = hygieneData.getHygieneInfo()
-                    if 'no_mem' in hygData:
-                        messages.append([timestamp, ('hygieneLast','-1'), ('hygieneType','no_mem'), ('hygieneStart','no_mem'), ('hygieneStop','no_mem')])
-                    else:
-                        start = hygData[0]
-                        stop = hygData[1]
-                        typeHyg = hygData[2]
-                        # need to find difference in hours btw now and the last one
-                        now = datetime.datetime.now()
-                        then = datetime.datetime.strptime(str(stop), '%Y-%m-%d %H:%M:%S.%f')
-                        diff = now-then
-                        hours = int(diff.hour) + int(diff.day) * 24
-                        hours = ('hygieneLast', str(hours))
-                        messages.append([timestamp, hours, ('hygieneType', typeHyg), ('hygieneStart', start), ('hygieneStop', stop)])
-                    hygieneTimeLast = compTimer
-                
-                # now use and idleTime
-                whichTime = alreadyHave(data)
-                idle = True
-                use = False
+    #while True:
+    print('looping')
+    compTimer = time.time()/60
+    timestamp = datetime.datetime.now().isoformat()
+    timestamp = ('timestamp', str(timestamp))
+    messages = []
+    # need to interpret the can data
+    for data in const.CAN_DATA:
+        if len(data) != 3:
+            const.CAN_DATA.remove(data)
+        # need to see if this is a new/old message
+        else:
+            # runtime
+            runTimeDelta = abs(runTimeLast-compTimer)
+            if runTimeDelta >= runTimeInt:
+                messages.append([('runTime', str(runTimeInt/60.0))])
+                runTimeLast = compTimer
+            
+            # hygiene
+            hygieneTimeDelta = abs(hygieneTimeLast-compTimer)
+            if hygieneTimeDelta >= hygieneTimeInt:
+                # need to read the old data
+                hygData = hygieneData.getHygieneInfo()
+                if 'no_mem' in hygData:
+                    messages.append([timestamp, ('hygieneLast','-1'), ('hygieneType','no_mem'), ('hygieneStart','no_mem'), ('hygieneStop','no_mem')])
+                else:
+                    start = hygData[0]
+                    stop = hygData[1]
+                    typeHyg = hygData[2]
+                    # need to find difference in hours btw now and the last one
+                    now = datetime.datetime.now()
+                    then = datetime.datetime.strptime(str(stop), '%Y-%m-%d %H:%M:%S.%f')
+                    diff = now-then
+                    hours = int(diff.hour) + int(diff.day) * 24
+                    hours = ('hygieneLast', str(hours))
+                    messages.append([timestamp, hours, ('hygieneType', typeHyg), ('hygieneStart', start), ('hygieneStop', stop)])
+                hygieneTimeLast = compTimer
+            
+            # now use and idleTime
+            whichTime = alreadyHave(data)
+            idle = True
+            use = False
 
-                if whichTime == idle:
-                    # idleTime
-                    if deviceState == 'use':
-                        idleTimeLast = compTimer
-                        deviceState = 'idle'
-                    idleTimeMsgDelta = abs(idleTimeLast-compTimer)
-                    if idleTimeMsgDelta >= idleTimeInt:
-                        idleTime = ('idleTime', str(idleTimeInt/60.0))
-                        idleTimeLast = compTimer
-                        messages.append([idleTime])
-                elif whichTime == use:
-                    if deviceState == 'idle':
-                        useTimeLast = compTimer
-                        deviceState = 'use'
-                    useTimeDelta = abs(useTimeLast-compTimer)
-                    if useTimeDelta >= useTimeInt:
-                        useTimeLast = compTimer
-                        messages.append([('useTime', str(useTimeInt/60.0))])
-            logger.get_logger().debug('data: %s' % str(messages))
-                             
+            if whichTime == idle:
+                # idleTime
+                if deviceState == 'use':
+                    idleTimeLast = compTimer
+                    deviceState = 'idle'
+                idleTimeMsgDelta = abs(idleTimeLast-compTimer)
+                if idleTimeMsgDelta >= idleTimeInt:
+                    idleTime = ('idleTime', str(idleTimeInt/60.0))
+                    idleTimeLast = compTimer
+                    messages.append([idleTime])
+            elif whichTime == use:
+                if deviceState == 'idle':
+                    useTimeLast = compTimer
+                    deviceState = 'use'
+                useTimeDelta = abs(useTimeLast-compTimer)
+                if useTimeDelta >= useTimeInt:
+                    useTimeLast = compTimer
+                    messages.append([('useTime', str(useTimeInt/60.0))])
+        logger.get_logger().debug('data: %s' % str(messages))
+                            
 
 # alreadyHave function - will return true of the message is already seen, retuyrn false if the message is new
 # idle - true

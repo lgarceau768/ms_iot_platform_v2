@@ -8,9 +8,9 @@ async def msIot():
     print('gather')
     t1 = Thread(target=readCan.readData)
     t2 = Thread(target=hexToEng.interpret)
-    t1.start()
-    t2.start()
-    
+    await t1.start()
+    await t2.start()
+
     
 
 # Main Program

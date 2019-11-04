@@ -5,9 +5,7 @@ from util import readCan, rotatingLogger as logger, hexToEng
 async def msIot():
     # need to connect to iotc and read can data
     print('gather')
-    readCanData = asyncio.create_task(readCan.readData())
-    sendData = asyncio.create_task(hexToEng.interpret())
-    await readCanData, sendData
+    await asyncio.gather(readCan.readData(), hexToEng.interpret())
 
 # Main Program
 if __name__ == '__main__':

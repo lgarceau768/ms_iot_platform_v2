@@ -1,11 +1,11 @@
-import os, sys, socket, configparser, datetime, const, shutil
+import os, sys, socket, configparser, datetime, const, shutil, asyncio
 from util import rotatingLogger as logger
 
 # Main Program
 if __name__ == '__main__':
     # setup config file
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(const.CONFIG_PATH)
 
     # need to setup logging
     deviceName = socket.gethostname()
@@ -23,6 +23,14 @@ if __name__ == '__main__':
         if file.endswith('.log'):
             shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
 
+    # need to move old csv files from csv dir
+    for file in os.listdir(config.get('Paths', 'dataPath')):
+        if file.endswith('.csv'):
+            shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
 
+    asyncio.run(msIot())
 
+@asyncio.coroutine
+async def msIot():
+    # need to connect to iotc and read can data
 

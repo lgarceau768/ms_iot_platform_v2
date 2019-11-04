@@ -46,7 +46,7 @@ async def readData():
                     message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
                     messageObj = (timestamp, canID, canMessage)
                     const.CAN_DATA.append(messageObj)
-                    print(str(const.CAN_DATA))
+                    #print(str(const.CAN_DATA))
         except Exception as e:
             error = traceback.format_exc()
             logger.get_logger().error(error)

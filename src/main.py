@@ -1,4 +1,5 @@
-import os, sys, socket, configparser, datetime, const, shutil, asyncio, readCan
+import os, sys, socket, configparser, datetime, const, shutil, asyncio
+from util import readCan
 from util import rotatingLogger as logger
 
 # Main Program

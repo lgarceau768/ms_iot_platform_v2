@@ -3,15 +3,17 @@ from util import rotatingLogger as logger
 
 # Main Program
 if __name__ == '__main__':
+    # setup config file
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
     # need to setup logging
     deviceName = socket.gethostname()
     time = datetime.datetime.now().isoformat()
     logName = '%s_msLog_%s' % (deviceName, time)
     const.LOG_NAME = logName
+    logger.setup_logger(const.LOG_NAME, config.get('Paths', 'logPath'))
 
-    # setup config file
-    config = configparser.ConfigParser()
-    config.read('config.ini')
 
     # start program
     logger.get_logger().info('Starting MS Platform')

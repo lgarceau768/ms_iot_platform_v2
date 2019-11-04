@@ -35,6 +35,7 @@ async def readData():
     filters = config.get('Can', 'filters').strip().lower().split(',')
 
     while True:
+        print('reading')
         try:
             message = can_bus.recv()
             if message is not None:

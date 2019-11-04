@@ -7,8 +7,7 @@ async def msIot():
     print('gather')
     readCanData = asyncio.create_task(readCan.readData())
     sendData = asyncio.create_task(hexToEng.interpret())
-    await readCanData
-    await sendData
+    await readCanData, sendData
 
 # Main Program
 if __name__ == '__main__':

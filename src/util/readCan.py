@@ -1,4 +1,5 @@
-import os, sys, can, asyncio, traceback, configparser, const, time, math, rotatingLogger as logger
+import os, sys, can, asyncio, traceback, configparser, const, time, math
+from util import rotatingLogger as logger
 
 # setup config file
 config = configparser.ConfigParser()

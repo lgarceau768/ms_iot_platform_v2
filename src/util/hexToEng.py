@@ -32,6 +32,7 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
 
     while True:
+        logger.get_logger().info('looping with size: %s' % str(len(const.CAN_DATA)))
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
         timestamp = ('timestamp', str(timestamp))

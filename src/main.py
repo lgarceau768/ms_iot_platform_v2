@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # need to move old log files from logs dir
     for file in os.listdir(config.get('Paths', 'logPath')):
-        if file.endswith('.log'):
+        if file.endswith('.log') and logName not in file:
             shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
 
     # need to move old csv files from csv dir

@@ -83,7 +83,7 @@ async def interpret():
                         idleTime = ('idleTime', str(idleTimeInt/60.0))
                         idleTimeLast = compTimer
                         messages.append([idleTime])
-                else if whichTime == use:
+                elif whichTime == use:
                     if deviceState == 'idle':
                         useTimeLast = compTimer
                         deviceState = 'use'
@@ -91,7 +91,7 @@ async def interpret():
                     if useTimeDelta >= useTimeInt:
                         useTimeLast = compTimer
                         messages.append([('useTime', str(useTimeInt/60.0))])
-
+            logger.get_logger().debug('data: %s' % str(messages))
                              
 
 # alreadyHave function - will return true of the message is already seen, retuyrn false if the message is new

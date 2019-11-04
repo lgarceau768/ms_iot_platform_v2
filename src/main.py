@@ -1,4 +1,4 @@
-import os, sys, socket, configparser, datetime, const
+import os, sys, socket, configparser, datetime, const, shutil
 from util import rotatingLogger as logger
 
 # Main Program
@@ -20,7 +20,8 @@ if __name__ == '__main__':
 
     # need to move old log files from logs dir
     for file in os.listdir(config.get('Paths', 'logPath')):
-        print(file)
+        if file.endswith('.log'):
+            shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
 
 
 

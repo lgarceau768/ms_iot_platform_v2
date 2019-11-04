@@ -1,5 +1,5 @@
 import os, sys, asyncio, const as const, configparser, time, datetime
-from util import rotatingLogger, hygieneData
+from util import rotatingLogger as logger, hygieneData
 
 # config
 config = configparser.ConfigParser()

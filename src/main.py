@@ -17,7 +17,7 @@ if __name__ == '__main__':
     time = datetime.datetime.now().isoformat()
     logName = '%s_msLog_%s' % (deviceName, time)
     const.LOG_NAME = logName
-    logger.setup_logger(const.LOG_NAME, config.get('Paths', 'logPath'))
+    logger.setup_logger(const.LOG_NAME, '/home/User1/msV2/logs/')
 
 
     # start program

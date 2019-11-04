@@ -38,7 +38,6 @@ class ExportedRotatingFileHandler(RotatingFileHandler):
         self.mode = 'w'
         self.stream = self._open()
 
-
 def setup_logger(name, destination):
     global logger
     logger = logging.getLogger()

@@ -1,4 +1,4 @@
-import os, sys, socket, configparser, datetime, const, shutil, asyncio
+import os, sys, socket, configparser, datetime, const, shutil, asyncio, readCan
 from util import rotatingLogger as logger
 
 # Main Program
@@ -33,4 +33,4 @@ if __name__ == '__main__':
 @asyncio.coroutine
 async def msIot():
     # need to connect to iotc and read can data
-
+    await asyncio.gather(readCan.readData())

@@ -29,6 +29,7 @@ async def readData():
     except Exception as e:
         error = traceback.format_exc()
         logger.get_logger().error(error)
+        logger.get_logger().error(str(e))
     
     logger.get_logger().info('Created CAN Bus')
     filters = config.get('Can', 'filters').strip().lower().split(',')
@@ -43,5 +44,8 @@ async def readData():
                     timestamp = epoch_to_datetime(message.timestamp)
                     message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
                     print(message)
-                    
+        except Exception as e:
+            error = traceback.format_exc()
+            logger.get_logger().error(error)
+            logger.get_logger().error(str(e))  
         

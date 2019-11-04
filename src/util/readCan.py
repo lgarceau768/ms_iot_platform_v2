@@ -43,7 +43,8 @@ async def readData():
                     canMessage = hexify_array(message.data)
                     timestamp = epoch_to_datetime(message.timestamp)
                     message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
-                    print(message)
+                    messageObj = (timestamp, canID, canMessage)
+                    const.CAN_DATA.append(messageObj)
         except Exception as e:
             error = traceback.format_exc()
             logger.get_logger().error(error)

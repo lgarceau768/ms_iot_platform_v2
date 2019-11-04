@@ -6,11 +6,16 @@ from threading import Thread
 async def msIot():
     # need to connect to iotc and read can data
     print('gather')
-    t1 = Thread(target=readCan.readData)
-    t2 = Thread(target=hexToEng.interpret)
-    await t1.start()
-    await t2.start()
+    t1 = Thread(target=runRead)
+    t2 = Thread(target=runSend)
+    t1.start()
+    t2.start()
 
+def runRead():
+    asyncio.run(readCan.readData())
+
+def runSend():
+    asyncio.run(hexToEng.interpret())
     
 
 # Main Program

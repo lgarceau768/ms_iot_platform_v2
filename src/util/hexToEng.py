@@ -35,7 +35,7 @@ async def interpret():
         print('looping')
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
-        timestamp = ('timestamp', str(timestamp))
+        timestamp = ['timestamp', str(timestamp)]
         messages = []
         # need to interpret the can data
         for data in const.CAN_DATA:
@@ -46,7 +46,7 @@ async def interpret():
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
                 if runTimeDelta >= runTimeInt:
-                    messages.append([('runTime', str(runTimeInt/60.0))])
+                    messages.append([['runTime', str(runTimeInt/60.0)]])
                     runTimeLast = compTimer
                 
                 # hygiene
@@ -55,7 +55,7 @@ async def interpret():
                     # need to read the old data
                     hygData = hygieneData.getHygieneInfo()
                     if 'no_mem' in hygData:
-                        messages.append([timestamp, ('hygieneLast','-1'), ('hygieneType','no_mem'), ('hygieneStart','no_mem'), ('hygieneStop','no_mem')])
+                        messages.append([timestamp, ['hygieneLast','-1'], ['hygieneType','no_mem'], ['hygieneStart','no_mem'], ['hygieneStop','no_mem']])
                     else:
                         start = hygData[0]
                         stop = hygData[1]
@@ -65,8 +65,8 @@ async def interpret():
                         then = datetime.datetime.strptime(str(stop), '%Y-%m-%d %H:%M:%S.%f')
                         diff = now-then
                         hours = int(diff.hour) + int(diff.day) * 24
-                        hours = ('hygieneLast', str(hours))
-                        messages.append([timestamp, hours, ('hygieneType', typeHyg), ('hygieneStart', start), ('hygieneStop', stop)])
+                        hours = ['hygieneLast', str(hours)]
+                        messages.append([timestamp, hours, ['hygieneType', typeHyg], ['hygieneStart', start], ['hygieneStop', stop]])
                     hygieneTimeLast = compTimer
                 
                 # now use and idleTime
@@ -81,7 +81,7 @@ async def interpret():
                         deviceState = 'idle'
                     idleTimeMsgDelta = abs(idleTimeLast-compTimer)
                     if idleTimeMsgDelta >= idleTimeInt:
-                        idleTime = ('idleTime', str(idleTimeInt/60.0))
+                        idleTime = ['idleTime', str(idleTimeInt/60.0)]
                         idleTimeLast = compTimer
                         messages.append([idleTime])
                 elif whichTime == use:
@@ -91,7 +91,7 @@ async def interpret():
                     useTimeDelta = abs(useTimeLast-compTimer)
                     if useTimeDelta >= useTimeInt:
                         useTimeLast = compTimer
-                        messages.append([('useTime', str(useTimeInt/60.0))])
+                        messages.append([['useTime', str(useTimeInt/60.0)]])
             logger.get_logger().debug('data: %s' % str(messages))
                              
 

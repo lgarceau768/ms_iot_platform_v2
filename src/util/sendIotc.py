@@ -20,14 +20,14 @@ async def connect():
     )
     await client.connect()
     logger.get_logger().info('Connected to IoT Central')
-    const.IOT_CLIENT = client
+    return client
 
 @asyncio.coroutine
 async def sendMessages():
     # send init messages
-    await connect()
+    client = await connect()
     properties = ['hygieneStart, hygieneStop', 'hygieneLast', 'batteryLevel', 'serialNum']
-    if const.IOT_CLIENT != None:
+    if client != None:
         # semd init messages
         await updateTwin()
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
@@ -41,12 +41,16 @@ async def sendMessages():
         output = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
         ip = '"ipAddress":"%s"}' % str(output)[2:].replace("\\n'",'')
         fullMsg = timestamp+hardMac+netMac+deviceID+officeName+ip
-        await const.IOT_CLIENT.patch_twin_reported_properties(json.loads(fullMsg))
-        await const.IOT_CLIENT.send_message('{"deviceEvent":"init"}')
-
+        await client.patch_twin_reported_properties(json.loads(fullMsg))
+        await client.send_message('{"deviceEvent":"init"}')
+        await client.disconnect()
         while True:
             removes = []
+            client = None
             for i in range(len(const.MSG_TO_SEND)):
+                if client == None:
+                    client = await connect()
+
                 lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
                 messageList = const.MSG_TO_SEND[i]
                 jsonStr = '{'
@@ -60,36 +64,43 @@ async def sendMessages():
                 if not prop:
                     logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonMsg)
                     msg = azure.iot.device.Message(jsonMsg)
-                    await const.IOT_CLIENT.send_message(msg)
+                    await client.send_message(msg)
                 else:
                     
                     logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
-                    await const.IOT_CLIENT.patch_twin_reported_properties(jsonMsg)
-                await const.IOT_CLIENT.patch_twin_reported_properties(lastTimeConnected)
+                    await client.patch_twin_reported_properties(jsonMsg)
+                await client.patch_twin_reported_properties(lastTimeConnected)
                 removes.append(messageList)
             for item in removes:
                 const.MSG_TO_SEND.remove(item)
+            if client != None:
+                await client.disconnect()
+                client = None`
     else:
         logger.get_logger().error('Error in connecting to IoT Central')
     
 @asyncio.coroutine
 async def settingsChange():
-    if const.IOT_CLIENT != None:
+    client = await connect()
+    if client != None:
         while True:
-            patch = await const.IOT_CLIENT.receive_twin_desired_properties_patch()
+            patch = await client.receive_twin_desired_properties_patch()
             if patch != None:
                 await updateTwin()
     else:
         logger.get_logger().error('Error in IoT Client')
         #await connect()
+    await client.disconnect()
 
 @asyncio.coroutine 
 async def updateTwin():
-    if const.IOT_CLIENT != None:
-        const.DEVICE_TWIN = await const.IOT_CLIENT.get_twin()
+    client = await connect()
+    if client != None:
+        const.DEVICE_TWIN = await client.get_twin()
     else:
         logger.get_logger().error('Error Retreiving device twin with iot client')
         #await connect()
+    await client.disconnect()
         
 def getProperty(property):
     try:

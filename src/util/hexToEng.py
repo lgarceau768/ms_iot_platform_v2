@@ -104,6 +104,8 @@ async def interpret():
 # idle - true
 # use - false
 def alreadyHave(data):
+    time.sleep(1)
+    print(str(const.CAN_CODES))
     idle = True
     use = False
     for item in const.CAN_CODES:

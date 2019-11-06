@@ -209,6 +209,7 @@ def alreadyHave(data):
                 print('useHere: '+str(data))
                 returnType = use
     if oldCode != None:
+        print('removing old code')
         const.CAN_CODES.remove(oldCode)
         const.CAN_CODES.append(data)
         return returnType

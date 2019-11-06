@@ -3,6 +3,8 @@ import logging
 import os
 import shutil
 import inspect
+import socket
+import datetime
 from logging.handlers import RotatingFileHandler
 
 
@@ -32,9 +34,9 @@ class ExportedRotatingFileHandler(RotatingFileHandler):
         # Generate a new timestamped-filename
         file_name_with_extension = os.path.basename(self.baseFilename)
         dir_name = os.path.dirname(self.baseFilename)
-        serial_number = file_name_with_extension.split("_")[0]
-        self.baseFilename = dir_name + "/" + serial_number + "_" + datetime.datetime.today().strftime('%m%d%Y_%H%M%S') \
-                            + ".log"
+        deviceName = socket.gethostname()
+        time = datetime.datetime.now().isoformat()
+        self.baseFilename = '%s_msLog_%s' % (deviceName, time)        
         self.mode = 'w'
         self.stream = self._open()
 

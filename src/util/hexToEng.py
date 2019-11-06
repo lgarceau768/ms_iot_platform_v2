@@ -186,7 +186,7 @@ def alreadyHave(data):
     idle = True
     use = False
     for item in const.CAN_CODES:
-        if item[1] == data[1]:
+        if item[1].strip().replace(' ','') == data[1].strip().replace(' ',''):
             # same can code
             
             if item[2].strip().lower() == data[2].strip().lower():

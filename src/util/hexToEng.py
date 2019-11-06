@@ -68,7 +68,7 @@ async def interpret():
                         typeHyg = hygData[2]
                         # need to find difference in hours btw now and the last one
                         now = datetime.datetime.now()
-                        then = datetime.datetime.strptime(str(stop), '%Y-%m-%d %H:%M:%S.%f')
+                        then = datetime.datetime.strptime(str(stop), '%Y-%m-%dT%H:%M:%S.%f')
                         diff = now-then
                         hours = int(diff.hour) + int(diff.day) * 24
                         hours = ['hygieneLast', str(hours)]

@@ -1,24 +1,40 @@
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
-from util import readCan, rotatingLogger as logger, hexToEng
+from util import readCan, rotatingLogger as logger, hexToEng, recordData, sendIotc
 from threading import Thread
 
 @asyncio.coroutine
 async def msIot():
     # need to connect to iotc and read can data
-    print('gather')
-    t1 = Thread(target=runRead)
-    t2 = Thread(target=runSend)
-    t1.start()
-    t2.start()
-    #t1.join()
-    #t2.join()
+    await sendIotc.connect()
+
+    # using a 5 threaded parrellism system
+    read = Thread(target=runRead)
+    translate = Thread(target=runTranslate)
+    record = Thread(target=runRecord)
+    update = Thread(target=runUpdate)
+    send = Thread(target=runSend)
+
+    # all threads run in parallel and have shared mutex data
+    read.start()
+    translate.start()
+    record.start()
+    update.start()
+    send.start()
 
 def runRead():
     asyncio.run(readCan.readData())
 
-def runSend():
+def runTranslate():
     asyncio.run(hexToEng.interpret())
     
+def runRecord():
+    asyncio.run(recordData.recordData())
+
+def runSend():
+    asyncio.run(sendIotc.sendMessages())
+
+def runUpdate():
+    asyncio.run(sendIotc.settingsChange())
 
 # Main Program
 if __name__ == '__main__':

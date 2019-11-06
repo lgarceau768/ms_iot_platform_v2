@@ -189,7 +189,7 @@ def alreadyHave(data):
         if item[1].strip().replace(' ','') == data[1].strip().replace(' ',''):
             # same can code
             
-            if item[2].strip().lower() == data[2].strip().lower():
+            if item[2].strip().replace(' ','').lower() == data[2].strip().replace(' ','').lower():
                 # the same can message
                 item = data
                 return idle

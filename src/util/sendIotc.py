@@ -59,7 +59,8 @@ async def sendMessages():
                 jsonMsg = json.loads(jsonStr)
                 if not prop:
                     logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonStr)
-                    await const.IOT_CLIENT.send_message(jsonStr)
+                    msg = azure.iot.device.Message(jsonStr)
+                    await const.IOT_CLIENT.send_message(msg)
                 else:
                     logger.get_logger().info('Sending Property:\n\t %s' % jsonStr)
                     await const.IOT_CLIENT.patch_twin_reported_properties(jsonStr)

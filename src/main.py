@@ -18,7 +18,7 @@ async def msIot():
     read.start()
     translate.start()
     record.start()
-    update.start()
+    #update.start()
     send.start()
 
 def runRead():

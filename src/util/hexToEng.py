@@ -52,7 +52,7 @@ async def interpret():
                 #print('rtime: '+str(runTimeDelta))
                 if runTimeDelta >= runTimeInt:
                     messages.append([['runTime', str(runTimeInt/60.0)]])
-                    
+                    messages.append([timestamp, ['timeType', 'runTime'], ['timeAmt', str(runTimeInt/60.0)]])
                     runTimeLast = compTimer
                 
                 # hygiene
@@ -91,6 +91,7 @@ async def interpret():
                         idleTime = ['idleTime', str(idleTimeInt/60.0)]
                         idleTimeLast = compTimer
                         messages.append([idleTime])
+                        messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
                 elif whichTime == use:
                     #print('use')
                     print('useCode: '+str(data))
@@ -103,7 +104,7 @@ async def interpret():
                     if useTimeDelta >= useTimeInt:
                         useTimeLast = compTimer
                         messages.append([['useTime', str(useTimeInt/60.0)]])
-
+                        messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])
 
                     ### check for other codes as well
                     canID = data[1]

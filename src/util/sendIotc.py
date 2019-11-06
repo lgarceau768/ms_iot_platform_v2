@@ -88,7 +88,6 @@ async def settingsChange(client):
 
 @asyncio.coroutine 
 async def updateTwin(client):
-    client = await connect()
     if client != None:
         const.DEVICE_TWIN = await client.get_twin()
     else:

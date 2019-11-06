@@ -47,7 +47,7 @@ async def sendMessages():
         while True:
             removes = []
             for i in range(len(const.MSG_TO_SEND)):
-                lastTimeConnected = '{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat()
+                lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
                 messageList = const.MSG_TO_SEND[i]
                 jsonStr = '{'
                 prop = False
@@ -64,7 +64,7 @@ async def sendMessages():
                 else:
                     
                     logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
-                    await const.IOT_CLIENT.patch_twin_reported_properties({'lastTimeConnected':'old'})
+                    await const.IOT_CLIENT.patch_twin_reported_properties(jsonMsg)
                 await const.IOT_CLIENT.patch_twin_reported_properties(lastTimeConnected)
                 removes.append(messageList)
             for item in removes:

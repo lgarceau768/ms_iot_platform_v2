@@ -45,7 +45,7 @@ async def interpret():
             else:
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
-                print('rtime: '+runTimeDelta)
+                print('rtime: '+str(runTimeDelta))
                 if runTimeDelta >= runTimeInt:
                     messages.append([['runTime', str(runTimeInt/60.0)]])
                     runTimeLast = compTimer

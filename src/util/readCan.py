@@ -33,9 +33,9 @@ async def readData():
     
     logger.get_logger().info('Created CAN Bus')
     filters = config.get('Can', 'filters').replace(' ','').strip().lower().split(',')
-    print(str(filters))
+    #print(str(filters))
     while True:
-        #print('reading')
+        ##print('reading')
         try:
             message = can_bus.recv()
             if message is not None:
@@ -46,7 +46,7 @@ async def readData():
                     message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
                     messageObj = (timestamp, canID, canMessage)
                     const.CAN_DATA.append(messageObj)
-                    #print(str(const.CAN_DATA))
+                    ##print(str(const.CAN_DATA))
         except Exception as e:
             error = traceback.format_exc()
             logger.get_logger().error(error)

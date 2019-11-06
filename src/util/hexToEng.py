@@ -33,9 +33,9 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     hygieneInProgress = False
 
-    #print('running')
+    ##print('running')
     while True:
-        #print('looping')
+        ##print('looping')
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
         timestamp = ['timestamp', str(timestamp)]
@@ -49,7 +49,7 @@ async def interpret():
             else:
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
-                #print('rtime: '+str(runTimeDelta))
+                ##print('rtime: '+str(runTimeDelta))
                 if runTimeDelta >= runTimeInt:
                     messages.append([['runTime', str(runTimeInt/60.0)]])
                     messages.append([timestamp, ['timeType', 'runTime'], ['timeAmt', str(runTimeInt/60.0)]])
@@ -82,7 +82,7 @@ async def interpret():
 
                 if whichTime == idle:
                     # idleTime
-                    #print('idle')
+                    ##print('idle')
                     if deviceState == 'use':
                         idleTimeLast = compTimer
                         deviceState = 'idle'
@@ -93,8 +93,8 @@ async def interpret():
                         messages.append([idleTime])
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
                 elif whichTime == use:
-                    #print('use')
-                    print('useCode: '+str(data))
+                    ##print('use')
+                    #print('useCode: '+str(data))
                     const.CAN_DATA.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     if deviceState == 'idle':
@@ -182,7 +182,7 @@ async def interpret():
 # use - false
 def alreadyHave(data):
     #time.sleep(1)
-    #print('list:\n'+str(const.CAN_CODES))
+    ##print('list:\n'+str(const.CAN_CODES))
     idle = True
     use = False
     for item in const.CAN_CODES:
@@ -204,7 +204,7 @@ def alreadyHave(data):
 def getErrorMessage(canMessage):
     mgsArray = canMessage.split(' ')
     hexID = mgsArray[2]
-    #print('hexID: '+str(hexID))
+    ##print('hexID: '+str(hexID))
     hexID = hexID.upper()
     errorCodes = {
         '20' : 'heartbeat gateway missing',

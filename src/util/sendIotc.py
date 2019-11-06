@@ -47,7 +47,7 @@ async def sendMessages(client):
             if len(const.MSG_TO_SEND) > 0:
                 for i in range(len(const.MSG_TO_SEND)):
                     lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
-                    print('\n\t'+str(lastTimeConnected))
+                    #print('\n\t'+str(lastTimeConnected))
                     messageList = const.MSG_TO_SEND[i]
                     jsonStr = '{'
                     prop = False
@@ -100,4 +100,4 @@ def getProperty(property):
 
 @asyncio.coroutine
 async def c2dCom():
-    print('test') # waiting on kunal to show us how to do some of this stuff
+    #print('test') # waiting on kunal to show us how to do some of this stuff

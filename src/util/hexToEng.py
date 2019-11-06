@@ -171,11 +171,11 @@ async def interpret():
                             messages.append([msg])
 
                     # serial number
-                    if canID == '0x419' and message[0] == '06':
-                        hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
-                        srlNo = str(int(hexNum, 16))
-                        serialNum =  ['serialNum', str(srlNo)]
-                        messages.append([serialNum])  
+                    # if canID == '0x419' and message[0] == '06':
+                    #     hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
+                    #     srlNo = str(int(hexNum, 16))
+                    #     serialNum =  ['serialNum', str(srlNo)]
+                    #     messages.append([serialNum])  
             
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))

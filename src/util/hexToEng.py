@@ -104,13 +104,14 @@ def alreadyHave(data):
     for item in const.CAN_CODES:
         if item[1] == data[1]:
             # same can code
-            item[0] = data[0]
+            
             if item[2].strip().lower() == data[2].strip().lower():
                 # the same can message
+                item = data
                 return idle
             else:
                 # new can message
-                item[2] = data[2]
+                item = data
                 return use
     const.CAN_CODES.append(data)
     return use

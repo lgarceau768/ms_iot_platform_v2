@@ -28,7 +28,7 @@ async def sendMessages(client):
     properties = ['hygieneStart, hygieneStop', 'hygieneLast', 'batteryLevel', 'serialNum']
     if client != None:
         # semd init messages
-        await updateTwin(client)
+        #await updateTwin(client)
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
         hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')
         netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')
@@ -44,29 +44,30 @@ async def sendMessages(client):
         await client.send_message('{"deviceEvent":"init"}')
         while True:
             removes = []
-            for i in range(len(const.MSG_TO_SEND)):
-                lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
-                messageList = const.MSG_TO_SEND[i]
-                jsonStr = '{'
-                prop = False
-                for k in range(len(messageList)):
-                    if messageList[k][0] in properties:
-                        prop = True
-                    jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
-                jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
-                jsonMsg = json.loads(jsonStr)
-                if not prop:
-                    logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonMsg)
-                    msg = azure.iot.device.Message(jsonMsg)
-                    await client.send_message(msg)
-                else:
-                    
-                    logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
-                    await client.patch_twin_reported_properties(jsonMsg)
-                await client.patch_twin_reported_properties(lastTimeConnected)
-                removes.append(messageList)
-            for item in removes:
-                const.MSG_TO_SEND.remove(item)
+            if len(const.MSG_TO_SEND) > 0:
+                for i in range(len(const.MSG_TO_SEND)):
+                    lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
+                    print('\n\t'+str(lastTimeConnected))
+                    messageList = const.MSG_TO_SEND[i]
+                    jsonStr = '{'
+                    prop = False
+                    for k in range(len(messageList)):
+                        if messageList[k][0] in properties:
+                            prop = True
+                        jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
+                    jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
+                    jsonMsg = json.loads(jsonStr)
+                    if not prop:
+                        logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonMsg)
+                        msg = azure.iot.device.Message(jsonMsg)
+                        await client.send_message(msg)
+                    else:                        
+                        logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
+                        await client.patch_twin_reported_properties(jsonMsg)
+                    await client.patch_twin_reported_properties(lastTimeConnected)
+                    removes.append(messageList)
+                for item in removes:
+                    const.MSG_TO_SEND.remove(item)
             
     else:
         logger.get_logger().error('Error in connecting to IoT Central')

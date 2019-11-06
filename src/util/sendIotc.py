@@ -28,7 +28,7 @@ async def sendMessages(client):
     properties = ['hygieneStart, hygieneStop', 'hygieneLast', 'batteryLevel', 'serialNum']
     if client != None:
         # semd init messages
-        #await updateTwin(client)
+        await updateTwin(client)
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
         hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')
         netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')

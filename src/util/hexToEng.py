@@ -32,7 +32,7 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     #print('running')
     while True:
-        print('looping')
+        #print('looping')
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
         timestamp = ['timestamp', str(timestamp)]
@@ -45,6 +45,7 @@ async def interpret():
             else:
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
+                print('rtime: '+runTimeDelta)
                 if runTimeDelta >= runTimeInt:
                     messages.append([['runTime', str(runTimeInt/60.0)]])
                     runTimeLast = compTimer
@@ -76,6 +77,7 @@ async def interpret():
 
                 if whichTime == idle:
                     # idleTime
+                    print('idle')
                     if deviceState == 'use':
                         idleTimeLast = compTimer
                         deviceState = 'idle'
@@ -85,6 +87,7 @@ async def interpret():
                         idleTimeLast = compTimer
                         messages.append([idleTime])
                 elif whichTime == use:
+                    print('use')
                     if deviceState == 'idle':
                         useTimeLast = compTimer
                         deviceState = 'use'

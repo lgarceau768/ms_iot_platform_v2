@@ -5,14 +5,14 @@ from threading import Thread
 @asyncio.coroutine
 async def msIot():
     # need to connect to iotc and read can data
-    await sendIotc.connect()
+    client = await sendIotc.connect()
 
     # using a 5 threaded parrellism system
     read = Thread(target=runRead)
     translate = Thread(target=runTranslate)
     record = Thread(target=runRecord)
-    update = Thread(target=runUpdate)
-    send = Thread(target=runSend)
+    update = Thread(target=runUpdate, args=client)
+    send = Thread(target=runSend, args=client)
 
     # all threads run in parallel and have shared mutex data
     read.start()
@@ -30,11 +30,11 @@ def runTranslate():
 def runRecord():
     asyncio.run(recordData.recordData())
 
-def runSend():
-    asyncio.run(sendIotc.sendMessages())
+def runSend(client):
+    asyncio.run(sendIotc.sendMessages(client))
 
-def runUpdate():
-    asyncio.run(sendIotc.settingsChange())
+def runUpdate(client):
+    asyncio.run(sendIotc.settingsChange(client))
 
 # Main Program
 if __name__ == '__main__':

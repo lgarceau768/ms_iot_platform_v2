@@ -23,13 +23,12 @@ async def connect():
     return client
 
 @asyncio.coroutine
-async def sendMessages():
+async def sendMessages(client):
     # send init messages
-    client = await connect()
     properties = ['hygieneStart, hygieneStop', 'hygieneLast', 'batteryLevel', 'serialNum']
     if client != None:
         # semd init messages
-        await updateTwin()
+        await updateTwin(client)
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
         hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')
         netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')
@@ -43,14 +42,9 @@ async def sendMessages():
         fullMsg = timestamp+hardMac+netMac+deviceID+officeName+ip
         await client.patch_twin_reported_properties(json.loads(fullMsg))
         await client.send_message('{"deviceEvent":"init"}')
-        await client.disconnect()
         while True:
             removes = []
-            client = None
             for i in range(len(const.MSG_TO_SEND)):
-                if client == None:
-                    client = await connect()
-
                 lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
                 messageList = const.MSG_TO_SEND[i]
                 jsonStr = '{'
@@ -73,15 +67,12 @@ async def sendMessages():
                 removes.append(messageList)
             for item in removes:
                 const.MSG_TO_SEND.remove(item)
-            if client != None:
-                await client.disconnect()
-                client = None
+            
     else:
         logger.get_logger().error('Error in connecting to IoT Central')
     
 @asyncio.coroutine
-async def settingsChange():
-    client = await connect()
+async def settingsChange(client):
     if client != None:
         while True:
             patch = await client.receive_twin_desired_properties_patch()
@@ -89,18 +80,15 @@ async def settingsChange():
                 await updateTwin()
     else:
         logger.get_logger().error('Error in IoT Client')
-        #await connect()
-    await client.disconnect()
 
 @asyncio.coroutine 
-async def updateTwin():
+async def updateTwin(client):
     client = await connect()
     if client != None:
         const.DEVICE_TWIN = await client.get_twin()
     else:
         logger.get_logger().error('Error Retreiving device twin with iot client')
         #await connect()
-    await client.disconnect()
         
 def getProperty(property):
     try:

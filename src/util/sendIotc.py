@@ -98,6 +98,6 @@ def getProperty(property):
         logger.get_logger().debug('Property %s not found' % property)
         return 'not_found'
 
-@asyncio.coroutine
-async def c2dCom():
+#@asyncio.coroutine
+#async def c2dCom():
     #print('test') # waiting on kunal to show us how to do some of this stuff

@@ -62,8 +62,8 @@ async def sendMessages():
                     msg = azure.iot.device.Message(jsonMsg)
                     await const.IOT_CLIENT.send_message(msg)
                 else:
-                    logger.get_logger().info('Sending Property:\n\t %s' % jsonStr)
-                    await const.IOT_CLIENT.patch_twin_reported_properties(jsonStr)
+                    logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
+                    await const.IOT_CLIENT.patch_twin_reported_properties(jsonMsg)
                 await const.IOT_CLIENT.patch_twin_reported_properties(lastTimeConnected)
                 removes.append(messageList)
             for item in removes:

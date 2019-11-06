@@ -119,7 +119,7 @@ async def interpret():
 
                     # hygiene status
                     if canID == '0x08':
-                        if message[5] != '80':
+                        if message[5] != '80':                            
                             if message[4] == '88' and message[5] == '01' and not hygieneInProgress:
                                 hygieneInProgress = True
                                 hygType = ['hygieneType', 'in_progress']
@@ -162,7 +162,13 @@ async def interpret():
                             msg[1] = 'critically_low'
                         else:
                             msg[1] = 'warning'
-                        messages.append([msg])
+                        already = False
+                        for msg in const.MSG_TO_SEND:                            
+                            for item in msg:
+                                if 'battery' in item[0]:
+                                    already = True
+                        if not already:
+                            messages.append([msg])
 
                     # serial number
                     if canID == '0x419' and message[0] == '06':
@@ -182,23 +188,33 @@ async def interpret():
 # use - false
 def alreadyHave(data):
     #time.sleep(1)
-    ##print('list:\n'+str(const.CAN_CODES))
     idle = True
     use = False
+    returnType = None
+    oldCode = None
+    found = False
     for item in const.CAN_CODES:
         if item[1].strip().replace(' ','') == data[1].strip().replace(' ',''):
+            found = True
+            oldCode = item
             # same can code
             
             if item[2].strip().replace(' ','').lower() == data[2].strip().replace(' ','').lower():
                 # the same can message
                 item = data
-                return idle
+                returnType = idle
             else:
-                # new can message
-                item = data
-                return use
-    const.CAN_CODES.append(data)
-    return use
+                # new can message                
+                print('list:\n'+str(const.CAN_CODES))
+                print('useHere: '+str(data))
+                returnType = use
+    if oldCode != None:
+        const.CAN_CODES.remove(oldCode)
+        const.CAN_CODES.append(data)
+        return returnType
+    if not found:
+        const.CAN_CODES.append(data)
+        return use
 
 # pull the error messsage from the code:
 def getErrorMessage(canMessage):
@@ -299,5 +315,3 @@ def getErrorMessage(canMessage):
         return msg, True
         
     return None, False
-
-#

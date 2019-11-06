@@ -75,7 +75,7 @@ async def sendMessages():
                 const.MSG_TO_SEND.remove(item)
             if client != None:
                 await client.disconnect()
-                client = None`
+                client = None
     else:
         logger.get_logger().error('Error in connecting to IoT Central')
     

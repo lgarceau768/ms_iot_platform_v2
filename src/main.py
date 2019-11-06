@@ -11,8 +11,8 @@ async def msIot():
     read = Thread(target=runRead)
     translate = Thread(target=runTranslate)
     record = Thread(target=runRecord)
-    update = Thread(target=runUpdate, args=client)
-    send = Thread(target=runSend, args=client)
+    update = Thread(target=runUpdate, args=[client])
+    send = Thread(target=runSend, args=[client])
 
     # all threads run in parallel and have shared mutex data
     read.start()

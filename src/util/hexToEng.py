@@ -88,6 +88,7 @@ async def interpret():
                         messages.append([idleTime])
                 elif whichTime == use:
                     #print('use')
+                    print('useCode: '+str(data))
                     logger.get_logger().debug('useCode: '+str(data))
                     if deviceState == 'idle':
                         useTimeLast = compTimer

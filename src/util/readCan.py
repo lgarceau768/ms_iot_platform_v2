@@ -32,7 +32,7 @@ async def readData():
         logger.get_logger().error(str(e))
     
     logger.get_logger().info('Created CAN Bus')
-    filters = config.get('Can', 'filters').strip().lower().split(',')
+    filters = config.get('Can', 'filters').replace(' ','').strip().lower().split(',')
     print(str(filters))
     while True:
         #print('reading')

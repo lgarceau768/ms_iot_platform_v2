@@ -32,7 +32,7 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     #print('running')
     while True:
-        #print('looping')
+        print('looping')
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
         timestamp = ['timestamp', str(timestamp)]

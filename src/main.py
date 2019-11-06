@@ -46,8 +46,9 @@ if __name__ == '__main__':
     deviceName = socket.gethostname()
     time = datetime.datetime.now().isoformat()
     logName = '%s_msLog_%s' % (deviceName, time)
+    path = os.path.join('/home/User1/msV2/logs', logName)
     const.LOG_NAME = logName
-    logger.setup_logger(const.LOG_NAME, '/home/User1/msV2/logs/')
+    logger.setup_logger(path, '/home/User1/msV2/logs/')
 
 
     # start program

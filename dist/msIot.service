@@ -1,0 +1,9 @@
+[Unit]
+Description=MS Iot Platform V2
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /etc/systemd/system/startMs.sh
+
+[Install]
+WantedBy=multi-user.target

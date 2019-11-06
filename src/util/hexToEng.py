@@ -45,7 +45,7 @@ async def interpret():
             else:
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
-                print('rtime: '+str(runTimeDelta))
+                #print('rtime: '+str(runTimeDelta))
                 if runTimeDelta >= runTimeInt:
                     messages.append([['runTime', str(runTimeInt/60.0)]])
                     runTimeLast = compTimer
@@ -77,7 +77,7 @@ async def interpret():
 
                 if whichTime == idle:
                     # idleTime
-                    print('idle')
+                    #print('idle')
                     if deviceState == 'use':
                         idleTimeLast = compTimer
                         deviceState = 'idle'
@@ -87,7 +87,7 @@ async def interpret():
                         idleTimeLast = compTimer
                         messages.append([idleTime])
                 elif whichTime == use:
-                    print('use')
+                    #print('use')
                     logger.get_logger().debug('useCode: '+str(data))
                     if deviceState == 'idle':
                         useTimeLast = compTimer

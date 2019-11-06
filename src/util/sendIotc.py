@@ -40,6 +40,10 @@ async def sendMessages(client):
         output = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
         ip = '"ipAddress":"%s"}' % str(output)[2:].replace("\\n'",'')
         fullMsg = timestamp+hardMac+netMac+deviceID+officeName+ip
+        msg = '{"timestamp":"%s","officeName":"%s","officeLocation":"%s","deviceID":"%s","roomName":"%s"}' % (datetime.datetime.now().isoformat(), getProperty('officeName'), getProperty('officeLocation'), socket.gethostname(), getProperty('roomName'))
+        logger.get_logger().info('LocationKey: %s' % msg)
+        await client.send_message(json.loads(msg))
+        logger.get_logger
         await client.patch_twin_reported_properties(json.loads(fullMsg))
         await client.send_message('{"deviceEvent":"init"}')
         while True:
@@ -78,7 +82,7 @@ async def settingsChange(client):
         while True:
             patch = await client.receive_twin_desired_properties_patch()
             if patch != None:
-                await updateTwin()
+                await updateTwin(client)
     else:
         logger.get_logger().error('Error in IoT Client')
 

@@ -70,7 +70,7 @@ async def interpret():
                         now = datetime.datetime.now()
                         then = datetime.datetime.strptime(str(stop), '%Y-%m-%dT%H:%M:%S.%f')
                         diff = now-then
-                        hours = int(diff.hour) + int(diff.day) * 24
+                        hours = (float(diff.seconds)/60.0/60.0) + int(diff.days) * 24
                         hours = ['hygieneLast', str(hours)]
                         messages.append([timestamp, hours, ['hygieneType', typeHyg], ['hygieneStart', start], ['hygieneStop', stop]])
                     hygieneTimeLast = compTimer

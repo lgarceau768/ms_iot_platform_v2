@@ -36,9 +36,10 @@ async def interpret():
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
         timestamp = ['timestamp', str(timestamp)]
-        messages = []
+        
         # need to interpret the can data
         for data in const.CAN_DATA:
+            messages = []
             if len(data) != 3:
                 const.CAN_DATA.remove(data)
             # need to see if this is a new/old message

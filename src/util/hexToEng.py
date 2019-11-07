@@ -134,7 +134,7 @@ async def interpret():
                                 hygLast = ['hygieneLast','0']
                                 if not already:
                                     messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
-                                    messages.append(['hygieneEvent', 'started'])
+                                    messages.append([['hygieneEvent', 'started']])
                                     already = True
                             if message[5] == '00' and hygieneInProgress and (message[4] == '00' or message[4] == '01'):
                                 hygieneType = ''
@@ -152,10 +152,10 @@ async def interpret():
                                 hygieneData.setHygieneInfo(oldStart, datetime.datetime.now().isoformat(), hygieneType)
                                 if not already2:
                                     messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
-                                    messages.append(['hygieneEvent', 'started'])
+                                    messages.append([['hygieneEvent', 'started']])
                                     already2 = True
                                 messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
-                                messages.append(['hygieneEvent', '%s_completed' % hygieneType])
+                                messages.append([['hygieneEvent', '%s_completed' % hygieneType]])
                     
                     # battery level
                     if canID == '0x08':

@@ -35,6 +35,8 @@ async def interpret():
 
     ##print('running')
     while True:
+        # messages to remove after loop
+        remove = []
         ##print('looping')
         compTimer = time.time()/60
         timestamp = datetime.datetime.now().isoformat()
@@ -46,9 +48,10 @@ async def interpret():
             already2 = False
             messages = []
             if len(data) != 3:
-                const.CAN_DATA.remove(data)
+                remove.append(data)
             # need to see if this is a new/old message
             else:
+                remove.append(data)
                 # runtime
                 runTimeDelta = abs(runTimeLast-compTimer)
                 ##print('rtime: '+str(runTimeDelta))
@@ -189,6 +192,10 @@ async def interpret():
                 logger.get_logger().info('data: %s' % str(messages))
                 for msg in messages:
                     const.MSG_TO_SEND.append(msg)
+
+        for item in remove:
+            const.CAN_DATA.remove(item)
+                
                              
 
 # alreadyHave function - will return true of the message is already seen, retuyrn false if the message is new

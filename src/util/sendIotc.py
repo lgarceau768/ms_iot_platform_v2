@@ -55,9 +55,12 @@ async def sendMessages(client):
                     messageList = const.MSG_TO_SEND[i]
                     jsonStr = '{'
                     prop = False
+                    hyg = False
                     for k in range(len(messageList)):
                         if messageList[k][0] in properties:
                             prop = True
+                            if 'hygiene' in messageList[k][0]:
+                                hyg = True
                         jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
                     jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
                     jsonMsg = json.loads(jsonStr)
@@ -65,7 +68,10 @@ async def sendMessages(client):
                         logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonStr)
                         msg = azure.iot.device.Message(jsonMsg)
                         await client.send_message(jsonStr)
-                    else:                        
+                    else:    
+                        if hyg:
+                            logger.get_logger().info('Sending Hygiene Update: %s\n\t' % jsonMsg)
+                            await client.send_message(jsonMsg)                    
                         logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
                         await client.patch_twin_reported_properties(jsonMsg)
                     await client.patch_twin_reported_properties(lastTimeConnected)

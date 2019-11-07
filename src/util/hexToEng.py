@@ -42,6 +42,8 @@ async def interpret():
         
         # need to interpret the can data
         for data in const.CAN_DATA:
+            already = False
+            already2 = False
             messages = []
             if len(data) != 3:
                 const.CAN_DATA.remove(data)
@@ -127,8 +129,10 @@ async def interpret():
                                 hygStop = ['hygieneStop', '']
                                 hygieneData.setHygieneInfo(datetime.datetime.now().isoformat(), 'no_mem', 'no_mem')
                                 hygLast = ['hygieneLast','0']
-                                messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
-                                messages.append([['hygieneEvent', 'started']])
+                                if not already:
+                                    messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
+                                    messages.append([['hygieneEvent', 'started']])
+                                    already = True
                             if message[5] == '00' and hygieneInProgress and (message[4] == '00' or message[4] == '01'):
                                 hygieneType = ''
                                 if message[4] == '00':
@@ -143,6 +147,10 @@ async def interpret():
                                 oldStart = oldData[0]
                                 hygStart = ['hygieneStart', oldStart]
                                 hygieneData.setHygieneInfo(oldStart, datetime.datetime.now().isoformat(), hygieneType)
+                                if not already2:
+                                    messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
+                                    messages.append([['hygieneEvent', 'started']])
+                                    already2 = True
                                 messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
                                 messages.append([['hygieneEvent', '%s_completed' % hygieneType]])
                     

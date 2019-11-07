@@ -71,7 +71,7 @@ async def sendMessages(client):
                     else:    
                         if hyg:
                             logger.get_logger().info('Sending Hygiene Update: %s\n\t' % jsonMsg)
-                            await client.send_message(jsonMsg)                    
+                            await client.send_message(jsonStr)                    
                         logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
                         await client.patch_twin_reported_properties(jsonMsg)
                     await client.patch_twin_reported_properties(lastTimeConnected)

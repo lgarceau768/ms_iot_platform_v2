@@ -45,7 +45,7 @@ async def sendMessages(client):
         await client.send_message(msg)
         logger.get_logger
         await client.patch_twin_reported_properties(json.loads(fullMsg))
-        await client.send_message(json.loads('{"deviceEvent":"init"}'))
+        await client.send_message(azure.iot.device.Message(json.loads('{"deviceEvent":"init"}')))
         while True:
             removes = []
             if len(const.MSG_TO_SEND) > 0:

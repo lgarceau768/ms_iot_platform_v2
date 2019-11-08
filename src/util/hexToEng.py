@@ -121,7 +121,7 @@ async def interpret():
                     # errorMessage
                     if canID == '0x402':
                         logger.get_logger().info(str(message[2]))
-                        errorMessage = getErrorMessage(message)
+                        errorMessage = getErrorMessage(data[2])
                         logger.get_logger().info(str(errorMessage))
                         if errorMessage[1] is True:
                             messages.append([['errorMessage', str(errorMessage[0])], ['controlByte', message[0]], timestamp])

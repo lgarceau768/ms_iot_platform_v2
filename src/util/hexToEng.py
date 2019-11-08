@@ -86,7 +86,7 @@ async def interpret():
                 use = False
 
                 # for use need to remember when the last can message changed
-                logger.get_logger().info(deviceState)
+                #logger.get_logger().info(deviceState)
                 if whichTime == idle:
                     # idleTime
                     

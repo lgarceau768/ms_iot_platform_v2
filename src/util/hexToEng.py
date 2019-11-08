@@ -97,7 +97,7 @@ async def interpret():
                     
                     if deviceState == 'idlePending':
                         useTimeDelta = abs(useTimeLast-compTimer)
-                        logger.get_logger().info(str(useTimeDelta)+'||||'+str(idleTimeMsgDelta))
+                        #logger.get_logger().info(str(useTimeDelta)+'||||'+str(idleTimeMsgDelta))
                         if useTimeDelta >= useTimeInt:
                             useTimeLast = compTimer
                             messages.append([['useTime', str(useTimeInt/60.0)]])

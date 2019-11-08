@@ -90,26 +90,28 @@ async def interpret():
                 if whichTime == idle:
                     # idleTime
                     if deviceState == 'use':
+                        deviceState = 'idlePending'
                         idleTimeLast = compTimer
                         # make new deviceState for idlePending
-                        deviceState = 'idle' 
                     idleTimeMsgDelta = abs(idleTimeLast-compTimer)
-                    if idleTimeMsgDelta >= idleTimeInt:
+                    if idleTimeMsgDelta >= idleTimeInt:                        
+                        deviceState = 'idle' 
                         # - set status to be in idle ONLY after the device has been in idle for the last X minutes
                         idleTime = ['idleTime', str(idleTimeInt/60.0)]
                         idleTimeLast = compTimer
                         messages.append([idleTime])
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
                 elif whichTime == use:
-                    ##print('use')
-                    #print('useCode: '+str(data))
+                    # useTime
                     const.CAN_DATA.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     if deviceState == 'idle':
                         useTimeLast = compTimer
                         deviceState = 'use'
+                        
                     useTimeDelta = abs(useTimeLast-compTimer)
                     if useTimeDelta >= useTimeInt:
+                        deviceState = 'use'
                         useTimeLast = compTimer
                         messages.append([['useTime', str(useTimeInt/60.0)]])
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])

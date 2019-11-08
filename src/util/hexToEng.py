@@ -117,7 +117,7 @@ async def interpret():
                     ### check for other codes as well
                     canID = data[1]
                     message = data[2].split(' ')
-
+                    print(canID)
                     # errorMessage
                     if canID == '0x402':
                         print(message[2])

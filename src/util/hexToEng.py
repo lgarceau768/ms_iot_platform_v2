@@ -123,6 +123,7 @@ async def interpret():
                         logger.get_logger().info(str(message))
                         if message[2] != '00':
                             errorMessage = getErrorMessage(message)
+                            logger.get_logger().info(str(errorMessage))
                             if errorMessage[1] is True:
                                 messages.append([['errorMessage', str(errorMessage[0])], ['controlByte', message[0]], timestamp])
 

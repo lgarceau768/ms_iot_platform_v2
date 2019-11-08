@@ -86,9 +86,10 @@ async def interpret():
                 use = False
 
                 # for use need to remember when the last can message changed
-
+                logger.get_logger().info(deviceState)
                 if whichTime == idle:
                     # idleTime
+                    
                     if deviceState == 'use':
                         deviceState = 'idlePending'
                         idleTimeLast = compTimer
@@ -108,7 +109,7 @@ async def interpret():
                     if deviceState == 'idle':
                         useTimeLast = compTimer
                         deviceState = 'use'
-                        
+
                     useTimeDelta = abs(useTimeLast-compTimer)
                     if useTimeDelta >= useTimeInt:
                         deviceState = 'use'

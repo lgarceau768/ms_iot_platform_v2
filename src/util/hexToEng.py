@@ -120,7 +120,7 @@ async def interpret():
                     logger.get_logger().info(canID)
                     # errorMessage
                     if canID == '0x402':
-                        logger.get_logger().info(str(message))
+                        logger.get_logger().info(str(message[2]))
                         if message[2] != '00':
                             errorMessage = getErrorMessage(message)
                             logger.get_logger().info(str(errorMessage))

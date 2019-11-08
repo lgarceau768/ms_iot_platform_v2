@@ -94,6 +94,15 @@ async def interpret():
                         deviceState = 'idlePending'
                         idleTimeLast = compTimer
                         # make new deviceState for idlePending
+                    
+                    if deviceState == 'idlePending':
+                        useTimeDelta = abs(useTimeLast-compTimer)
+                        if useTimeDelta >= useTimeInt:
+                            deviceState = 'use'
+                            useTimeLast = compTimer
+                            messages.append([['useTime', str(useTimeInt/60.0)]])
+                            messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])
+
                     idleTimeMsgDelta = abs(idleTimeLast-compTimer)
                     if idleTimeMsgDelta >= idleTimeInt:                        
                         deviceState = 'idle' 

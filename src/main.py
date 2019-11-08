@@ -57,12 +57,22 @@ if __name__ == '__main__':
     # need to move old log files from logs dir
     for file in os.listdir(config.get('Paths', 'logPath')):
         if file.endswith('.log') and logName not in file:
-            shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
+            filePathCurr = os.path.join(config.get('Paths', 'logPath'), file)
+            dest = os.path.join(config.get('Paths', 'outPath'), file)
+            try:
+                os.system('mv %s %s' % (filePathCurr, dest))
+            except Exception as e:
+                logger.get_logger().info('Exception %s in moving %s' % (filePathCurr, dest))
 
     # need to move old csv files from csv dir
     for file in os.listdir(config.get('Paths', 'dataPath')):
         if file.endswith('.csv'):
-            shutil.move(os.path.join(config.get('Paths', 'logPath'), file), config.get('Paths', 'outPath'))
+            filePathCurr = os.path.join(config.get('Paths', 'dataPath'), file)
+            dest = os.path.join(config.get('Paths', 'outPath'), file)
+            try:
+                os.system('mv %s %s' % (filePathCurr, dest))
+            except Exception as e:
+                logger.get_logger().info('Exception %s in moving %s' % (filePathCurr, dest))
 
     asyncio.run(msIot())
 

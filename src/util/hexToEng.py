@@ -85,14 +85,17 @@ async def interpret():
                 idle = True
                 use = False
 
+                # for use need to remember when the last can message changed
+
                 if whichTime == idle:
                     # idleTime
-                    ##print('idle')
                     if deviceState == 'use':
                         idleTimeLast = compTimer
-                        deviceState = 'idle'
+                        # make new deviceState for idlePending
+                        deviceState = 'idle' 
                     idleTimeMsgDelta = abs(idleTimeLast-compTimer)
                     if idleTimeMsgDelta >= idleTimeInt:
+                        # - set status to be in idle ONLY after the device has been in idle for the last X minutes
                         idleTime = ['idleTime', str(idleTimeInt/60.0)]
                         idleTimeLast = compTimer
                         messages.append([idleTime])
@@ -117,6 +120,7 @@ async def interpret():
 
                     # errorMessage
                     if canID == '0x402':
+                        print(message[2])
                         if message[2] != '00':
                             errorMessage = getErrorMessage(message)
                             if errorMessage[1] is True:

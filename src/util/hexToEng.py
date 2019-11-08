@@ -327,7 +327,6 @@ def getErrorMessage(canMessage):
     } 
 
     if hexID in errorCodes:
-        msg = createJsonMsg('errorMessage',errorCodes[hexID].replace(' ','_'))
-        return msg, True
+        return errorCodes[hexID].replace(' ','_'), True
         
     return None, False

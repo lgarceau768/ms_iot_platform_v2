@@ -99,7 +99,6 @@ async def interpret():
                         useTimeDelta = abs(useTimeLast-compTimer)
                         logger.get_logger().info(str(useTimeDelta))
                         if useTimeDelta >= useTimeInt:
-                            deviceState = 'use'
                             useTimeLast = compTimer
                             messages.append([['useTime', str(useTimeInt/60.0)]])
                             messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])

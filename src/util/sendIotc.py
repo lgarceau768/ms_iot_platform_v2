@@ -43,7 +43,6 @@ async def sendMessages(client):
         msg = '{"timestamp":"%s","officeName":"%s","officeLocation":"%s","deviceID":"%s","roomName":"%s"}' % (datetime.datetime.now().isoformat(), getProperty('officeName'), getProperty('officeLocation'), socket.gethostname(), getProperty('roomName'))
         logger.get_logger().info('LocationKey: %s' % msg)
         await client.send_message(msg)
-        logger.get_logger
         await client.patch_twin_reported_properties(json.loads(fullMsg))
         await client.send_message('{"deviceEvent":"init"}')
         while True:

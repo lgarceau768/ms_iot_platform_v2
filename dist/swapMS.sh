@@ -70,6 +70,9 @@ yes | sudo apt-get install git
 cd /home/User1/
 git clone https://lgarceau768:Spook524*@github.com/lgarceau768/msV2.git
 
+# remove the old ms platform
+rm -rf /home/User1/connected-treatment-units
+
 cd /home/User1/aws-script/Downloads/
 # install python3
 yes | sudo apt-get install python3

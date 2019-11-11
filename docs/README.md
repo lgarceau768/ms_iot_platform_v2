@@ -123,9 +123,9 @@ I use a `deviceState` variable which is of data type `String`, which has 3 value
         - Idle
         - IdlePending
   
+Scenario 1:   
 
 
-Scenario 1:  
 |Time (minutes since boot)| Whats Happening | deviceState  |
 |-------|------------------------------|--------------|
 | 0                                 | Device Boot                                 | N/A          |
@@ -135,6 +135,8 @@ Scenario 1:
 | 12 (useThreshold + idlethreshold) | Device sends idleTime message               | Idle         |  
 
 Secnario 2:
+
+
 | Time (minutes since boot)         | Whats Happening                              | deviceState |
 |-----------------------------------|----------------------------------------------|-------------|
 | 0                                 | Device Boot                                  | N/A         |

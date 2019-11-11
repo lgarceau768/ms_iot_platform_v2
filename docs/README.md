@@ -123,6 +123,10 @@ I use a `deviceState` variable which is of data type `String`, which has 3 value
         - Idle
         - IdlePending
   
+|Test|
+|---|
+|row0|
+
 Scenario 1:  
 | Time (minutes since boot)         | Whats Happening                             | deviceState  |
 |-----------------------------------|---------------------------------------------|--------------|

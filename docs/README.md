@@ -116,4 +116,30 @@ and
 6. Send `lastTimeConnected` property
 7. Remove message from `const.MSG_TO_SEND`
 
+## Calculation / Determination of UseTime and IdleTime
+I use a `deviceState` variable which is of data type `String`, which has 3 values
 
+        - Use
+        - Idle
+        - IdlePending
+  
+Scenario 1:  
+| Time (minutes since boot)         | Whats Happening                             | deviceState  |
+|-----------------------------------|---------------------------------------------|--------------|
+| 0                                 | Device Boot                                 | N/A          |
+| 1                                 | Device Reads initial new can codes/messages | Use          |
+| 1+1ms                             | Device sees starts to see old can messages  | Idle Pending |
+| 5 (use threshold)                 | Device sends useTime message                | Idle         |
+| 12 (useThreshold + idlethreshold) | Device sends idleTime message               | Idle         |  
+
+Secnario 2:
+| Time (minutes since boot)         | Whats Happening                              | deviceState |
+|-----------------------------------|----------------------------------------------|-------------|
+| 0                                 | Device Boot                                  | N/A         |
+| 1                                 | Device Reads initial new can codes/messages  | Use         |
+| 1+1ms                             | Device sees starts to see old can messages   | IdlePending |
+| 3                                 | New Can Message Comes through                | Use         |
+| 3 cont.                           | UseTimeDelta updated   IdleTimeStart reset   | Use         |
+| 3+1ms                             | Device sees old can id/message               | IdlePending |
+| 5 (or useThreshold)               | Device sends useTime message                 | Idle        |
+| 12 (useThreshold + idleThreshold) | Device sends idleTime message if no new code | Idle        |

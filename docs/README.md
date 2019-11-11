@@ -21,8 +21,8 @@ Author:  _Luke Garceau_
 1. Connect to Iot Central and Initialize Can Bus
 2. Split each task into a seperate Thread  
 3. Run the Threads using a paralell architecture  
-        - _Parallelism is the idea of running multiple processes at the same time_  
-        - _Transfer of data between each process is acheived by shared mutex variables (aka constant variables that each thread has access to)_  
+        > _Parallelism is the idea of running multiple processes at the same time_  
+        > _Transfer of data between each process is acheived by shared mutex variables (aka constant variables that each thread has access to)_  
 4. Shared Variables
         
         - const.CAN_DATA

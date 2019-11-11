@@ -32,11 +32,11 @@
 # Pseudo Code
 
 ## Shared Variables
-- _const.CAN_DATA_  
+- __const.CAN_DATA__  
         - Starts in `readCan.py -> readData()`  
         - List of tuple variables that are to be interpretted into english  
         - Ends in `hexToEng.py -> interpret()`
-- _const.MSG_TO_SEND_  
+- __const.MSG_TO_SEND__  
         - Starts in `hexToEng.py -> interpret()`  
         - List of arrays formatted like:        
         `[`    
@@ -54,7 +54,7 @@
         `]`  
         - Can have multiple messages  
         - Ends in `sendIotc.py -> sendMessages()`
-- __const.MSG_TO_RECORD_  
+- __const.MSG_TO_RECORD__  
         - Starts in `hexToEng.py -> interpret() -> alreadyHave()`  
         - List of tuple variables to be written to the .csv file  
         - Ends in `recordData.py -> recordData()` 
@@ -132,7 +132,7 @@ I use a `deviceState` variable which is of data type `String`, which has 3 value
         - Idle
         - IdlePending
   
-Scenario 1:   
+__Scenario 1:__   
 
 
 |Time (minutes since boot)| Whats Happening | deviceState  |
@@ -143,7 +143,7 @@ Scenario 1:
 | 5 (use threshold)                 | Device sends useTime message                | Idle         |
 | 12 (useThreshold + idlethreshold) | Device sends idleTime message               | Idle         |  
 
-Secnario 2:
+__Secnario 2:__
 
 
 | Time (minutes since boot)         | Whats Happening                              | deviceState |

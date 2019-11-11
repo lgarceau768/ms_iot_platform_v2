@@ -44,6 +44,7 @@ async def interpret():
         
         # need to interpret the can data
         for data in const.CAN_DATA:
+            compTimer = time.time()/60
             already = False
             already2 = False
             messages = []

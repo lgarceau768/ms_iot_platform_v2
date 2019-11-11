@@ -123,13 +123,11 @@ I use a `deviceState` variable which is of data type `String`, which has 3 value
         - Idle
         - IdlePending
   
-|Test|
-|---|
-|row0|
+
 
 Scenario 1:  
-| Time (minutes since boot)         | Whats Happening                             | deviceState  |
-|-----------------------------------|---------------------------------------------|--------------|
+|Time (minutes since boot)| Whats Happening | deviceState  |
+|-------|------------------------------|--------------|
 | 0                                 | Device Boot                                 | N/A          |
 | 1                                 | Device Reads initial new can codes/messages | Use          |
 | 1+1ms                             | Device sees starts to see old can messages  | Idle Pending |

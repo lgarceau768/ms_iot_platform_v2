@@ -256,6 +256,8 @@ def alreadyHave(data):
 def getErrorMessage(canMessage):
     mgsArray = canMessage.split(' ')
     hexID = mgsArray[2]
+    if hexID == '38':
+        return None, False
     ##print('hexID: '+str(hexID))
     hexID = hexID.upper()
     errorCodes = {

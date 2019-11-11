@@ -1,7 +1,7 @@
 # Kavo MS IoT Platform
 
-Version: _2.0_  
-Author:  _Luke Garceau_  
+> Version: _2.0_  
+> Author:  _Luke Garceau_  
 
 ## Requirements
 

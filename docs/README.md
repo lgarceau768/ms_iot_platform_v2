@@ -42,6 +42,16 @@ Author:  _Luke Garceau_
         `[`    
         `['runTime',  '0.008333333333333333']`  
         `]`  
+        __or__  
+        `[`  
+        `['runTime', '0.008333333333333333']`   
+        `,` __(comma seperated)__  
+        `['timestamp', '2019-11-06T03:40:29.863497']`  
+        `['hygieneLast', '-1']`  
+        `['hygieneType', 'no_mem']`  
+        `['hygieneStart', 'no_mem']`  
+        `['hygieneStop', 'no_mem']`  
+        `]`  
         - Can have multiple messages  
         - Ends in `sendIotc.py -> sendMessages()`
 - __const.MSG_TO_RECORD_  

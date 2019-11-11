@@ -51,15 +51,11 @@ Author:  _Luke Garceau_
 
 
 ## Read CAN Messages
-
-1. Translate CAN Hex Code to format below:  
-`String:   `  
-` YYYY-MM-DD HH-MM-SS.MMMM ID: Ox### Message: ## ## ## ## ## ## ## ##`  
-and  
+1. Translate CAN Hex Code to format below:   
 `Python Tuple of Strings Object`  
 `(Timestamp, CanID, Message)`  
-2. Append The String to `const.MSG_TO_RECORD` shared program variable  
-3. Append The Tuple to `const.MSG_TO_SEND` shared program variable
+1. Append The Tuple to `const.MSG_TO_RECORD` shared program variable  
+2. Append The Tuple to `const.MSG_TO_SEND` shared program variable
 
 ## Interpret Messages to Useful Variables
 - _runTime_  
@@ -91,7 +87,10 @@ and
         `timestamp = datetime.datetime.now()`  
         `timestamp = '%i-%i-%i_%i:%i' % (timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute)` 
         `fileName = '%s_canData_%s.csv' % (deviceName, timestamp)`
-- Format of Can Message:  
+- Message needs to be of this format:  
+        `String:   `  
+        `YYYY-MM-DD HH-MM-SS.MMMM ID: Ox### Message: ## ## ## ## ## ## ## ##`  
+  - Syntax to format a Can Message:  
         ` incoming canMessage: data = (tuple of strings)`  
         `canTS = data[0]`  
         `canID = data[1]`  

@@ -15,6 +15,7 @@
         - error messages
         - location data
 3. Keep the device updated with its cloud counterpart
+
         - Start MS service on startup
         - Verify MS continues to run
         - Reestablish connection losses from lost wifi

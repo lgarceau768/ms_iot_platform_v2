@@ -83,6 +83,7 @@
         - Update message sent every interval in `config.ini`   
         - Records data to text file `start|stop|type -> data/hygieneData.txt`  
         - Sends `hygieneEvent` and updates data once a hygiene cycle is triggered on the chair  
+        - ???What about the hygiene last message???
 - _error messages_  
         - Sends an error message json variable everytime there is a new error message  
         - See `hexToEng.py -> interpret()` 
@@ -93,17 +94,17 @@
                 - officeName
                 - officeLocation
                 - roomName
-                - deviceName
+                - deviceName ???Is this pulled from the cloud or the device?? The device should already have a unique device name on it
 - Remove the can message from `const.CAN_DATA`
 
 ## Record Data to .csv file
 - Will record new can messages to the `.csv` file in `data/***.csv`
-- Format of fileName:  
+- Format of fileName:  (should match old format alpha010_11112019_133131.csv deviceID_mmddyyyy_hhmmss.csv)
         `deviceName = socket.gethostname()`  
         `timestamp = datetime.datetime.now()`  
         `timestamp = '%i-%i-%i_%i:%i' % (timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute)` 
         `fileName = '%s_canData_%s.csv' % (deviceName, timestamp)`
-- Message needs to be of this format:  
+- Message needs to be of this format:  (should match old format 07/25/2019 18:31:08:031  ID: 0x08 Message: 00 06 c0 00 00 00 00 00 timestamp in 1 column, can message in 2nd column )
         `String:   `  
         `YYYY-MM-DD HH-MM-SS.MMMM ID: Ox### Message: ## ## ## ## ## ## ## ##`  
   - Syntax to format a Can Message:  
@@ -116,7 +117,7 @@
 
 ## Send To Iot Central
 1. Pull down the device twin from Iot Central
-2. Send the init messages:
+2. Send the init messages: ???Why are you sending mac, wireless mac and ip address??
         
         - Location Data: (officeName, roomName, officeLocation, deviceID)
         - Ip Address
@@ -131,7 +132,7 @@
 6. Send `lastTimeConnected` property
 7. Remove message from `const.MSG_TO_SEND`
 
-## Calculation / Determination of UseTime and IdleTime
+## Calculation / Determination of UseTime and IdleTime  (Im not sure I understand the logic.  It looks like it will only send Idle time)
 I use a `deviceState` variable which is of data type `String`, which has 3 values
 
         - Use

@@ -12,6 +12,7 @@ async def recordData():
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):
             logger.get_logger().info('Recording data')
+            logger.get_logger().info('data file: '+const.CAN_DATA_FILE)
             data = const.MSG_TO_RECORD[i]
             if const.CAN_DATA_FILE == '':
                 deviceName = socket.gethostname()
@@ -21,6 +22,7 @@ async def recordData():
                 const.CAN_DATA_FILE = fileName
             path = config.get('Paths', 'canDataPath')
             if os.stat(os.path.join(path, const.CAN_DATA_FILE)).st_size >= int(config.get('Size', 'maxCsvSize')):
+                logger.get_logger().debug('moved csv file')
                 try:
                     shutil.move(os.path.join(path, const.CAN_DATA_FILE), config.get('Paths', 'outPath'))
                 except Exception as e:
@@ -30,7 +32,7 @@ async def recordData():
                 timestamp = '%i%i%i_%i%i%s' % (timestamp.day, timestamp.month, timestamp.year, timestamp.hour, timestamp.minute, timestamp.second)
                 fileName = '%s_%s.csv' % (deviceName, timestamp)
                 const.CAN_DATA_FILE = fileName            
-
+            logger.get_logger().info('joined name: %s' % os.path.join(path, const.CAN_DATA_FILE))
             with open(os.path.join(path, const.CAN_DATA_FILE), 'a') as canFile:
                 canTS = data[0]
                 canID = data[1]

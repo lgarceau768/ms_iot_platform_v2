@@ -32,7 +32,8 @@ async def recordData():
             if os.stat(os.path.join(path, const.CAN_DATA_FILE)).st_size >= int(config.get('Size', 'maxCsvSize')):
                 logger.get_logger().info('---------------------moved csv file')
                 try:
-                    shutil.move(os.path.join(path, const.CAN_DATA_FILE), config.get('Paths', 'outPath'))
+                    #shutil.move(os.path.join(path, const.CAN_DATA_FILE), config.get('Paths', 'outPath'))
+                    print('lol')
                 except Exception as e:
                     logger.get_logger().error('Exception %s in moving %s: ' % (e, os.path.join(path, const.CAN_DATA_FILE)))
                 deviceName = socket.gethostname()

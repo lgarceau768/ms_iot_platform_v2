@@ -8,9 +8,10 @@ async def recordData():
     # wait for program to remove other csvs
     
     while True:
-        logger.get_logger().info('Recording data')
+        
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):
+            logger.get_logger().info('Recording data')
             data = const.MSG_TO_RECORD[i]
             if const.CAN_DATA_FILE == '':
                 deviceName = socket.gethostname()

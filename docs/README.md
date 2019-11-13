@@ -19,7 +19,7 @@
         - Start MS service on startup
         - Verify MS continues to run
         - Reestablish connection losses from lost wifi
-        - Collects data generated during connection losses and transfers the data when connections are reestablished
+        - Collects data generated during connection losses and transfers the data when connections are reestablished __Todo__
 4. Send engineered variables to Iot Central
 5. Dynamically update IP tables with correct MS IP addresses
 

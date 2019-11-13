@@ -11,7 +11,7 @@ async def recordData():
         
         removes = []
         dataLarge = const.MSG_TO_RECORD
-        logger.get_logger().info('---------------: '+str(len(const.MSG_TO_RECORD))+' : '+const.CAN_DATA_FILE)
+        #logger.get_logger().info('---------------: '+str(len(const.MSG_TO_RECORD))+' : '+const.CAN_DATA_FILE)
         for i in range(0, len(dataLarge)):
             (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
         for item in removes:

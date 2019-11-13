@@ -117,7 +117,7 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
                 elif whichTime == use:
                     # useTime
-                    const.CAN_DATA.append(data)
+                    const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     if deviceState == 'idle':
                         useTimeLast = compTimer

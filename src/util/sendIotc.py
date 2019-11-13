@@ -30,15 +30,18 @@ async def sendMessages(client):
         # semd init messages
         await updateTwin(client)
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
-        hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')
-        netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')
+        hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')[len(get_mac_address(interface='wlan0')):]
+        netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')[len(get_mac_address(interface='eth0')):]
         deviceID = '"deviceID":"%s",' % socket.gethostname()
         officeName = '"officeLocation":"%s",' % getProperty('officeName')
         roomName = '"roomName":"%s",' % getProperty('roomName')
         officeLocation = '"officeLocation":"%s"' % getProperty('officeLocation')
         command = ['hostname', '-I']
         output = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-        ip = '"ipAddress":"%s"}' % str(output)[2:].replace("\\n'",'')
+        output = str(output)[2:].replace("\\n'",'')
+        output = output.split('.')
+        output = str(output[len(output)-1])
+        ip = '"ipAddress":"%s"}' % output
         fullMsg = timestamp+hardMac+netMac+deviceID+officeName+ip
         msg = '{"timestamp":"%s","officeName":"%s","officeLocation":"%s","deviceID":"%s","roomName":"%s"}' % (datetime.datetime.now().isoformat(), getProperty('officeName'), getProperty('officeLocation'), socket.gethostname(), getProperty('roomName'))
         logger.get_logger().info('LocationKey: %s' % msg)

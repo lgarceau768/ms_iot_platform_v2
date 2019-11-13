@@ -5,6 +5,8 @@ config = configparser.ConfigParser()
 
 @asyncio.coroutine
 async def recordData():
+    # wait for program to remove other csvs
+    Time.sleep(5)
     while True:
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):
@@ -12,8 +14,8 @@ async def recordData():
             if const.CAN_DATA_FILE == '':
                 deviceName = socket.gethostname()
                 timestamp = datetime.datetime.now()
-                timestamp = '%i-%i-%i_%i:%i' % (timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute)
-                fileName = '%s_canData_%s.csv' % (deviceName, timestamp)
+                timestamp = '%i%i%i_%i%i%s' % (timestamp.day, timestamp.month, timestamp.year, timestamp.hour, timestamp.minute, timestamp.second)
+                fileName = '%s_%s.csv' % (deviceName, timestamp)
                 const.CAN_DATA_FILE = fileName
             path = config.get('Paths', 'canDataPath')
             if os.stat(os.path.join(path, const.CAN_DATA_FILE)).st_size >= int(config.get('Size', 'maxCsvSize')):
@@ -23,8 +25,8 @@ async def recordData():
                     logger.get_logger().error('Exception %s in moving %s: ' % (e, os.path.join(path, const.CAN_DATA_FILE)))
                 deviceName = socket.gethostname()
                 timestamp = datetime.datetime.now()
-                timestamp = '%i-%i-%i_%i:%i' % (timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute)
-                fileName = '%s_canData_%s.csv' % (deviceName, timestamp)
+                timestamp = '%i%i%i_%i%i%s' % (timestamp.day, timestamp.month, timestamp.year, timestamp.hour, timestamp.minute, timestamp.second)
+                fileName = '%s_%s.csv' % (deviceName, timestamp)
                 const.CAN_DATA_FILE = fileName            
 
             with open(os.path.join(path, const.CAN_DATA_FILE), 'a') as canFile:

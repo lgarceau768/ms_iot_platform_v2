@@ -12,7 +12,7 @@ async def recordData():
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):
             logger.get_logger().info('Recording data')
-            
+            logger.get_logger().info('------------: '+str(const.MSG_TO_RECORD))
             data = const.MSG_TO_RECORD[i]
             op = 'a'
             if '.csv' not in const.CAN_DATA_FILE:

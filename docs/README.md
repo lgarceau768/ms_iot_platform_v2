@@ -158,8 +158,8 @@ __Scenario 2:__
 | 0                                 | Device Boot                                  | N/A         |
 | 1                                 | Device Reads initial new can codes/messages  | Use         |
 | 1+1ms                             | Device sees starts to see old can messages   | IdlePending |
-| 3                                 | New Can Message Comes through                | Use         |
-| 3 cont.                           | UseTimeDelta updated   IdleTimeStart reset   | Use         |
+| 3                                 | New Can Message Comes through                | IdlePending |
+| 3 cont.                           | UseTimeDelta updated   IdleTimeStart reset   | IdlePending |
 | 3+1ms                             | Device sees old can id/message               | IdlePending |
 | 5 (or useThreshold)               | Device sends useTime message                 | Idle        |
 | 12 (useThreshold + idleThreshold) | Device sends idleTime message if no new code | Idle        |

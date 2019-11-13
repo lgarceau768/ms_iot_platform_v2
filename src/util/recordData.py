@@ -1,4 +1,4 @@
-import os, sys, asyncio, const, socket, datetime, configparser, shutil
+import os, sys, asyncio, const, socket, datetime, configparser, shutil, time
 from util import rotatingLogger as logger
 
 config = configparser.ConfigParser()
@@ -6,7 +6,7 @@ config = configparser.ConfigParser()
 @asyncio.coroutine
 async def recordData():
     # wait for program to remove other csvs
-    Time.sleep(5)
+    time.sleep(5)
     while True:
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):

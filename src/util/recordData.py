@@ -10,10 +10,15 @@ async def recordData():
     while True:
         
         removes = []
-        for i in range(len(const.MSG_TO_RECORD)):
+        dataLarge = const.MSG_TO_RECORD
+        for i in range(len(dataLarge)):
             logger.get_logger().info('---------------------Recording data')
             logger.get_logger().info('------------: '+str(const.MSG_TO_RECORD))
-            data = const.MSG_TO_RECORD[i]
+            try:
+                data = dataLarge[i]
+            except Exception as e:
+                logger.get_logger().error('----------error with assignment '+str(i))
+
             logger.get_logger().info('op: '+op)
             op = 'a'
             if '.csv' not in const.CAN_DATA_FILE:

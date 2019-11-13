@@ -150,7 +150,7 @@ __Scenario 1:__
 | 5 (use threshold)                 | Device sends useTime message                | Idle         |
 | 12 (useThreshold + idlethreshold) | Device sends idleTime message               | Idle         |  
 
-__Secnario 2:__
+__Scenario 2:__
 
 
 | Time (minutes since boot)         | Whats Happening                              | deviceState |

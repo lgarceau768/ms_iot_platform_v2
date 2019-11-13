@@ -107,7 +107,7 @@ def getProperty(property):
     try:
         return const.DEVICE_TWIN['desired'][property]['value']
     except Exception as e:
-        logger.get_logger().debug('Property %s not found' % property)
+        logger.get_logger().info('Property %s not found' % property)
         return 'not_found'
 
 #@asyncio.coroutine

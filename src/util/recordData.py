@@ -12,7 +12,7 @@ async def recordData():
         removes = []
         dataLarge = const.MSG_TO_RECORD
         logger.get_logger().info('---------------: '+str(len(const.MSG_TO_RECORD))+' : '+const.CAN_DATA_FILE)
-        for i in range(len(dataLarge)):
+        for i in range(0, len(dataLarge)):
             logger.get_logger().info('---------------------Recording data')
             logger.get_logger().info('------------: '+str(const.MSG_TO_RECORD))
             

@@ -6,8 +6,9 @@ config = configparser.ConfigParser()
 @asyncio.coroutine
 async def recordData():
     # wait for program to remove other csvs
-    time.sleep(5)
+    
     while True:
+        logger.get_logger().info('Recording data')
         removes = []
         for i in range(len(const.MSG_TO_RECORD)):
             data = const.MSG_TO_RECORD[i]

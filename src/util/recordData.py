@@ -22,7 +22,6 @@ async def recordData():
         for item in removes:
             const.MSG_TO_RECORD.remove(item)
 
-<<<<<<< HEAD
 
 ## need to create fucntion to handle this and then continue testing later tonight
 def handleFile(file='none'):
@@ -40,7 +39,3 @@ def handleFile(file='none'):
         file = fileName
     filePath = os.path.join(dataDir, file)
     return filePath, operation
-=======
-def handleFile(file):
-    dataDir = config.get('Paths', 'dataPath')
->>>>>>> e3f7fec9e4d38caece7b6c0b14e373040f40ee9b

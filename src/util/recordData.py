@@ -29,7 +29,7 @@ def handleFile(file='none'):
     filePath = os.path.join(dataDir, file)
     operation = 'a'
     if os.path.stat(filePath).ST_SIZE >= config.get('Size', 'maxCsvSize') or file == 'none':
-        os.system('mv %s /home/User1/out/%s', % (filePath, file))
+        os.system('mv %s /home/User1/out/%s' % (filePath, file))
         operation = 'w'
         fileName = socket.gethostname()
         fileName = fileName+'_'

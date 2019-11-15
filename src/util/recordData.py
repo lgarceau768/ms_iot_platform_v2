@@ -1,10 +1,9 @@
 import os, sys, asyncio, const, socket, datetime, configparser, shutil, time
 from util import rotatingLogger as logger
-import threading
 
 config = configparser.ConfigParser()
 
-def recordData(data):
+def record(data):
     # wait for program to remove other csvs
     const.CAN_DATA_FILE = handleFile()[0]
         

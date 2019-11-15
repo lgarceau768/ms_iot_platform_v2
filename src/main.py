@@ -17,7 +17,7 @@ async def msIot():
     # all threads run in parallel and have shared mutex data
     read.start()
     translate.start()
-    record.start()
+    #record.start()
     #update.start()
     send.start()
 

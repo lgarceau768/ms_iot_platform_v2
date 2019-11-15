@@ -1,7 +1,7 @@
 import os, sys, asyncio, const as const, configparser, time, datetime
 from util import hygieneData
 from util import rotatingLogger as logger, hygieneData
-
+from util import recordData
 # config
 config = configparser.ConfigParser()
 config.read(const.CONFIG_PATH)
@@ -117,7 +117,7 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
                 elif whichTime == use:
                     # useTime
-                    const.MSG_TO_RECORD.append(data)
+                    recordData.recordData(data)
                     #logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     if deviceState == 'idle':

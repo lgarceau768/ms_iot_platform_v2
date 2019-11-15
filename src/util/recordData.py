@@ -3,27 +3,18 @@ from util import rotatingLogger as logger
 import threading
 
 config = configparser.ConfigParser()
-locker = threading.Lock()
-@asyncio.coroutine
-async def recordData():
+
+def recordData(data):
     # wait for program to remove other csvs
     const.CAN_DATA_FILE = handleFile()[0]
-    while True:
         
-        removes = []
-        dataLarge = const.MSG_TO_RECORD
-        logger.get_logger().info('---------------: '+str(len(const.MSG_TO_RECORD))+' : '+const.CAN_DATA_FILE)
-        for i in range(0, len(dataLarge)):
-            with locker:
-                (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
-                with open(fileName, opertation) as file:
-                    data = dataLarge[i]
-                    file.write('%s,ID:\t%sMessage:\t%s' % (data[0], data[1], data[2]))
-                    file.close()
-                removes.append(data)
-        for item in removes:
-            const.MSG_TO_RECORD.remove(item)
-
+    removes = []
+    logger.get_logger().info('---------------: '+str(data))
+    
+    (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
+    with open(fileName, opertation) as file:
+        file.write('%s,ID:\t%sMessage:\t%s' % (data[0], data[1], data[2]))
+        file.close()
 
 ## need to create fucntion to handle this and then continue testing later tonight
 def handleFile(file='none'):

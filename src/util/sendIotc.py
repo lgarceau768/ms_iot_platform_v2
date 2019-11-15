@@ -30,8 +30,8 @@ async def sendMessages(client):
         # semd init messages
         await updateTwin(client)
         timestamp = '{"timestamp":"%s",' % datetime.datetime.now().isoformat()
-        hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')[len(get_mac_address(interface='wlan0'))-4:]
-        netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')[len(get_mac_address(interface='eth0'))-4:]
+        hardMac = '"hardwareMac":"%s",' % get_mac_address(interface='wlan0')[len(get_mac_address(interface='wlan0'))-5:]
+        netMac = '"networkMac":"%s",' % get_mac_address(interface='eth0')[len(get_mac_address(interface='eth0'))-5:]
         deviceID = '"deviceID":"%s",' % socket.gethostname()
         officeName = '"officeLocation":"%s",' % getProperty('officeName')
         roomName = '"roomName":"%s",' % getProperty('roomName')

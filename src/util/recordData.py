@@ -1,8 +1,9 @@
 import os, sys, asyncio, const, socket, datetime, configparser, shutil, time
 from util import rotatingLogger as logger
+import threading
 
 config = configparser.ConfigParser()
-
+locker = threading.Lock()
 @asyncio.coroutine
 async def recordData():
     # wait for program to remove other csvs
@@ -13,12 +14,13 @@ async def recordData():
         dataLarge = const.MSG_TO_RECORD
         logger.get_logger().info('---------------: '+str(len(const.MSG_TO_RECORD))+' : '+const.CAN_DATA_FILE)
         for i in range(0, len(dataLarge)):
-            (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
-            with open(fileName, opertation) as file:
-                data = dataLarge[i]
-                file.write('%s,ID:\t%sMessage:\t%s' % (data[0], data[1], data[2]))
-                file.close()
-            removes.append(data)
+            with locker:
+                (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
+                with open(fileName, opertation) as file:
+                    data = dataLarge[i]
+                    file.write('%s,ID:\t%sMessage:\t%s' % (data[0], data[1], data[2]))
+                    file.close()
+                removes.append(data)
         for item in removes:
             const.MSG_TO_RECORD.remove(item)
 

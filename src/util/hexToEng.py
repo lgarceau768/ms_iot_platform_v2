@@ -27,7 +27,7 @@ def record(data):
     const.CAN_DATA_FILE = handleFile()[0]
         
     removes = []
-    logger.get_logger().info('---------------: '+str(data))
+    #logger.get_logger().info('---------------: '+str(data))
     
     (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
     with open(fileName, opertation) as file:
@@ -163,12 +163,12 @@ async def interpret():
                     ### check for other codes as well
                     canID = data[1]
                     message = data[2].split(' ')
-                    logger.get_logger().info(canID)
+                    #logger.get_logger().info(canID)
                     # errorMessage
                     if canID == '0x402':
-                        logger.get_logger().info(str(message[2]))
+                        #logger.get_logger().info(str(message[2]))
                         errorMessage = getErrorMessage(data[2])
-                        logger.get_logger().info(str(errorMessage))
+                        #logger.get_logger().info(str(errorMessage))
                         if errorMessage[1] is True:
                             messages.append([['errorMessage', str(errorMessage[0])], ['controlByte', message[0]], timestamp])
 

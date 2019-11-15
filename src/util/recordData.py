@@ -6,7 +6,7 @@ config = configparser.ConfigParser()
 @asyncio.coroutine
 async def recordData():
     # wait for program to remove other csvs
-    
+    const.CAN_DATA_FILE = handleFile()[0]
     while True:
         
         removes = []

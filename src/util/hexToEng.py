@@ -148,7 +148,7 @@ async def interpret():
                     # useTime
                     
                     logger.get_logger().info('useCode: '+str(data))
-                    record(data)
+                    #record(data)
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     if deviceState == 'idle':
                         useTimeLast = compTimer

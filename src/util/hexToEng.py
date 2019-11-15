@@ -1,4 +1,4 @@
-import os, sys, asyncio, const as const, configparser, time, datetime, socket
+import os, sys, asyncio, const as const, configparser, time, datetime
 from util import hygieneData
 from util import rotatingLogger as logger, hygieneData
 # config
@@ -27,7 +27,7 @@ def record(data):
     const.CAN_DATA_FILE = handleFile()[0]
         
     removes = []
-    logger.get_logger().info('---------------: '+str(data))
+    #logger.get_logger().info('---------------: '+str(data))
     
     (fileName, opertation) = handleFile(const.CAN_DATA_FILE)
     with open(fileName, opertation) as file:
@@ -148,7 +148,6 @@ async def interpret():
                     # useTime
                     
                     logger.get_logger().info('useCode: '+str(data))
-                    record(data)
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     if deviceState == 'idle':
                         useTimeLast = compTimer
@@ -164,12 +163,12 @@ async def interpret():
                     ### check for other codes as well
                     canID = data[1]
                     message = data[2].split(' ')
-                    logger.get_logger().info(canID)
+                    #logger.get_logger().info(canID)
                     # errorMessage
                     if canID == '0x402':
-                        logger.get_logger().info(str(message[2]))
+                        #logger.get_logger().info(str(message[2]))
                         errorMessage = getErrorMessage(data[2])
-                        logger.get_logger().info(str(errorMessage))
+                        #logger.get_logger().info(str(errorMessage))
                         if errorMessage[1] is True:
                             messages.append([['errorMessage', str(errorMessage[0])], ['controlByte', message[0]], timestamp])
 
@@ -181,6 +180,7 @@ async def interpret():
                                 hygType = ['hygieneType', 'in_progress']
                                 hygStart = ['hygieneStart', datetime.datetime.now().isoformat()]
                                 hygStop = ['hygieneStop', '']
+                                # test
                                 hygieneData.setHygieneInfo(datetime.datetime.now().isoformat(), 'no_mem', 'no_mem')
                                 hygLast = ['hygieneLast','0']
                                 if not already:

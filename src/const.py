@@ -3,7 +3,7 @@ import os
 # global variables
 CONFIG_PATH = '/home/User1/msV2/src/config.ini'
 LOG_NAME = ''
-CAN_DATA_FILE = ''
+CAN_DATA_FILE = 'none'
 
 # shared data amongst the threads
 CAN_DATA = []

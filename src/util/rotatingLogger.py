@@ -43,7 +43,7 @@ class ExportedRotatingFileHandler(RotatingFileHandler):
 def setup_logger(name, destination):
     global logger
     logger = logging.getLogger()
-    logger.setLevel('INFO')
+    logger.setLevel('DEBUG')
     formatter = logging.Formatter(
         '%(asctime)s %(levelname)-8s %(message)s', datefmt="%m-%d-%Y %H:%M:%S")
 

@@ -1,4 +1,4 @@
-import os, sys, asyncio, const as const, configparser, time, datetime, socket
+import os, sys, asyncio, const as const, configparser, time, datetime
 from util import hygieneData
 from util import rotatingLogger as logger, hygieneData
 # config
@@ -148,7 +148,6 @@ async def interpret():
                     # useTime
                     
                     logger.get_logger().info('useCode: '+str(data))
-                    #record(data)
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     if deviceState == 'idle':
                         useTimeLast = compTimer
@@ -181,6 +180,7 @@ async def interpret():
                                 hygType = ['hygieneType', 'in_progress']
                                 hygStart = ['hygieneStart', datetime.datetime.now().isoformat()]
                                 hygStop = ['hygieneStop', '']
+                                # test
                                 hygieneData.setHygieneInfo(datetime.datetime.now().isoformat(), 'no_mem', 'no_mem')
                                 hygLast = ['hygieneLast','0']
                                 if not already:

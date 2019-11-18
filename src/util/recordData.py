@@ -10,11 +10,11 @@ def recordToCSV():
     fileName = getFileName()
     
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
-    logger.get_logger().info('===========Filename: %s Path: %s' % (fileName, path))
+    logger.get_logger().info('CSV Filename: %s Path: %s' % (fileName, path))
     while True:
         operation = 'w'
         (fileName, path) = needMove(fileName, path)
-        logger.get_logger().info('===========After needMove: %s %s' % (fileName, path))
+        #logger.get_logger().info('===========After needMove: %s %s' % (fileName, path))
         if os.path.isfile(path):
             operation = 'a'
         remove = []

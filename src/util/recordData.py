@@ -10,11 +10,11 @@ def recordToCSV():
     fileName = getFileName()
     
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
-    logger.get_logger().info('Filename: %s Path: %s' % (fileName, path))
+    logger.get_logger().info('===========Filename: %s Path: %s' % (fileName, path))
     while True:
         operation = 'w'
         (fileName, path) = needMove(fileName, path)
-        logger.get_logger().info('After needMove: %s %s' % (fileName, path))
+        logger.get_logger().info('===========After needMove: %s %s' % (fileName, path))
         if os.path.isfile(path):
             operation = 'a'
         remove = []
@@ -50,7 +50,9 @@ def needMove(fileName, path):
     maxSize = config.get('Size', 'maxCsvSize')
     outpath = config.get('Paths', 'outPath')
     outpath = os.path.join(outpath, fileName)
-    if os.stat(path).st_size >= int(maxSize):
+    logger.get_logger().info('======max size: %s' % maxSize)
+    logger.get_logger().info('=========getsize %s' % os.path.getsize(path))
+    if os.path.getsize(path) >= int(maxSize):
         os.system('mv %s %s' % (path, outpath))
         newName = getFileName()
         path = os.path.join(config.get('Paths', 'dataPath'), fileName)

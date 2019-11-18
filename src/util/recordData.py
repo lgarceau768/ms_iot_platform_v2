@@ -49,7 +49,7 @@ def getFileName():
     hour = str(today.hour)
     minute = str(today.minute)
     second = str(today.second)
-    return fileName+day+month+year+'_'+hour+minute+second+'.csv'
+    return fileName+day+month+year+'_'+hour+minute+second+'.txt'
 
 def needMove(fileName, path):
     maxSize = config.get('Size', 'maxCsvSize')

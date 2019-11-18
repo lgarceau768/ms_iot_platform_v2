@@ -19,22 +19,25 @@ def recordToCSV():
             operation = 'a'
         remove = []
         with open(fileName, operation) as csvFile:
-            logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
+            
             for data in const.MSG_TO_RECORD:
+                logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
                 remove.append(data)
                 logger.get_logger().info('====== data: %s' % str(data))
-                writeMsg(csvFile, data)
+                csvFile.write(writeMsg(data))
+                
             csvFile.close()
         for item in remove:
             const.MSG_TO_RECORD.remove(item)
         
 
-def writeMsg(file, data):
+def writeMsg(data):
     canTS = data[0]
     canID = data[1]
     canMSG = data[2]
     msg = '%s,ID: %s Message: %s\n' % (canTS, canID, canMSG)
-    file.write(msg)
+    logger.get_logger().info('=====msg: %s' % msg)
+    return msg
 
 def getFileName():
     fileName = socket.gethostname()

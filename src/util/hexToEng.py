@@ -118,7 +118,7 @@ async def interpret():
                     # new canMsg
                     newMsg = True
                 
-                timeMsgDelta = abs(useMsgLast-compTimer)
+                timeMsgDelta = abs(timeMsgLast-compTimer)
                 if timeMsgDelta >= timeInt:
                     changeTimeDelta = abs(changeTime-compTimer)
                     if changeTimeDelta >= timeInt:

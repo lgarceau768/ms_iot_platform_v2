@@ -176,18 +176,20 @@ async def interpret():
                     if canID == '0x08':
                         if message[5] != '80':                            
                             if message[4] == '88' and message[5] == '01' and not hygieneInProgress:
+                                now = datetime.datetime.now().isoformat()
                                 hygieneInProgress = True
                                 hygType = ['hygieneType', 'in_progress']
-                                hygStart = ['hygieneStart', datetime.datetime.now().isoformat()]
+                                hygStart = ['hygieneStart', now]
                                 hygStop = ['hygieneStop', '']
                                 # test
-                                hygieneData.setHygieneInfo(datetime.datetime.now().isoformat(), 'no_mem', 'no_mem')
+                                hygieneData.setHygieneInfo(now, 'no_mem', 'no_mem')
                                 hygLast = ['hygieneLast','0']
                                 if not already:
                                     messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
                                     messages.append([['hygieneEvent', 'started']])
                                     already = True
                             if message[5] == '00' and hygieneInProgress and (message[4] == '00' or message[4] == '01'):
+                                now = datetime.datetime.now().isoformat()
                                 hygieneType = ''
                                 if message[4] == '00':
                                     hygieneType = 'germ_reduction'
@@ -196,11 +198,11 @@ async def interpret():
                                 hygieneInProgress = False
                                 hygLast = ['hygieneLast', '0']
                                 hygType = ['hygieneType', hygieneType]
-                                hygStop = ['hygieneStop', datetime.datetime.now().isoformat()]
+                                hygStop = ['hygieneStop', now]
                                 oldData = hygieneData.getHygieneInfo()
                                 oldStart = oldData[0]
                                 hygStart = ['hygieneStart', oldStart]
-                                hygieneData.setHygieneInfo(oldStart, datetime.datetime.now().isoformat(), hygieneType)
+                                hygieneData.setHygieneInfo(oldStart, now, hygieneType)
                                 if not already2:
                                     messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
                                     messages.append([['hygieneEvent', 'started']])

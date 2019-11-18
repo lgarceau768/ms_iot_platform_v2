@@ -1,5 +1,5 @@
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
-from util import readCan, rotatingLogger as logger, hexToEng, sendIotc
+from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData
 from threading import Thread
 
 @asyncio.coroutine
@@ -10,14 +10,17 @@ async def msIot():
     # using a 5 threaded parrellism system
     read = Thread(target=runRead)
     translate = Thread(target=runTranslate)
-    update = Thread(target=runUpdate, args=[client])
     send = Thread(target=runSend, args=[client])
-
+    record = Thread(target=recordData)
     # all threads run in parallel and have shared mutex data
     read.start()
     translate.start()
-    #update.start()
     send.start()
+    record.start()
+    record.join()
+
+def recordData():
+    recordData.recordToCSV()
 
 def runRead():
     asyncio.run(readCan.readData())
@@ -28,8 +31,6 @@ def runTranslate():
 def runSend(client):
     asyncio.run(sendIotc.sendMessages(client))
 
-def runUpdate(client):
-    asyncio.run(sendIotc.settingsChange(client))
 
 # Main Program
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ def recordToCSV():
     while True:
         operation = 'w'
         (fileName, path) = needMove(fileName, path)
+        logger.get_logger().info('After needMove: %s %s' % (fileName, path))
         if os.path.isfile(path):
             operation = 'a'
         remove = []

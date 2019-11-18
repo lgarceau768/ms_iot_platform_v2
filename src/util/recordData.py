@@ -8,8 +8,9 @@ config.read(const.CONFIG_PATH)
 
 def recordToCSV():
     fileName = getFileName()
-    logger.get_logger().info('Filename: %s' % fileName)
+    
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
+    logger.get_logger().info('Filename: %s Path: %s' % (fileName, path))
     while True:
         operation = 'w'
         (fileName, path) = needMove(fileName, path)

@@ -50,9 +50,9 @@ def needMove(fileName, path):
     maxSize = config.get('Size', 'maxCsvSize')
     outpath = config.get('Paths', 'outPath')
     outpath = os.path.join(outpath, fileName)
-    logger.get_logger().info('======max size: %s' % maxSize)
+    #logger.get_logger().info('======max size: %s' % maxSize)
     if os.path.isfile(path):
-        logger.get_logger().info('=========getsize %s' % os.path.getsize(path))
+        #logger.get_logger().info('=========getsize %s' % os.path.getsize(path))
         if os.path.getsize(path) >= int(maxSize):
             os.system('mv %s %s' % (path, outpath))
             newName = getFileName()

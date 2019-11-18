@@ -18,7 +18,7 @@ def recordToCSV():
         if os.path.isfile(path):
             operation = 'a'
         remove = []
-        with open(fileName, operation) as csvFile:
+        with open(path, operation) as csvFile:
             
             for data in const.MSG_TO_RECORD:
                 logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
@@ -49,7 +49,7 @@ def getFileName():
     hour = str(today.hour)
     minute = str(today.minute)
     second = str(today.second)
-    return fileName+day+month+year+'_'+hour+minute+second+'.txt'
+    return fileName+day+month+year+'_'+hour+minute+second+'.csv'
 
 def needMove(fileName, path):
     maxSize = config.get('Size', 'maxCsvSize')

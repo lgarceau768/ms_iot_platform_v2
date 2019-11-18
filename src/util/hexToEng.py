@@ -122,9 +122,11 @@ async def interpret():
                 if timeMsgDelta >= timeInt:
                     changeTimeDelta = abs(changeTime-compTimer)
                     if changeTimeDelta >= timeInt:
+                        messages.append([['idleTime', str(timeInt/60.0)]])
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(timeInt/60.0)]])
                         timeMsgLast = compTimer
                     else:
+                        messages.append([['useTime', str(timeInt/60.0)]])
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
                         timeMsgLast = compTimer
 

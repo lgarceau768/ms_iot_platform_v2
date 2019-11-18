@@ -117,7 +117,7 @@ async def interpret():
                     changeTime = compTimer
                     # new canMsg
                     newMsg = True
-                
+                logger.get_logger().info('===========Before Calc')
                 timeMsgDelta = abs(timeMsgLast-compTimer)
                 if timeMsgDelta >= timeInt:
                     changeTimeDelta = abs(changeTime-compTimer)
@@ -128,21 +128,14 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
                         timeMsgLast = compTimer
 
+
+                logger.get_logger().info('===========After Calc')
                 if newMsg:
                     const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
-                    if deviceState == 'idle':
-                        useTimeLast = compTimer
-                        deviceState = 'use'
-
-                    useTimeDelta = abs(useTimeLast-compTimer)
-                    if useTimeDelta >= useTimeInt:
-                        deviceState = 'use'
-                        useTimeLast = compTimer
-                        messages.append([['useTime', str(useTimeInt/60.0)]])
-                        messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])
-
+                    
+                   
                     ### check for other codes as well
                     canID = data[1]
                     message = data[2].split(' ')

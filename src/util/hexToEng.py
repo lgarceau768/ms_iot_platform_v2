@@ -46,15 +46,12 @@ async def interpret():
     runTimeDelta = abs(runTimeLast-compTimer)
     runTimeInt = float(config.get('Time', 'runTime'))
 
-    # idletime
-    idleTimeLast = compTimer
-    idleTimeMsgDelta = abs(idleTimeLast-compTimer)
-    idleTimeInt = float(config.get('Time', 'idleTime'))
-
-    # usetime
-    useTimeLast = compTimer
-    useTimeDelta = abs(useTimeLast-compTimer)
-    useTimeInt = float(config.get('Time', 'useTime'))
+    # use/idle time
+    timeMsgLast = compTimer
+    timeInt = float(config.get('Time', 'time'))
+    timeMsgDelta = abs(timeMsgLast-compTimer)
+    changeTime = compTimer
+    changeTimeDelta = abs(changeTime-compTimer)
 
     # hygieneTime
     hygieneTimeLast = compTimer
@@ -114,38 +111,24 @@ async def interpret():
                 whichTime = alreadyHave(data)
                 idle = True
                 use = False
+                newMsg = False
 
-                # for use need to remember when the last can message changed
-                #logger.get_logger().info(deviceState)
-                if whichTime == idle:
-                    # idleTime
-                    
-                    if deviceState == 'use':
-                        deviceState = 'idlePending'
-                        idleTimeLast = compTimer
-                        # make new deviceState for idlePending
-                    
-                    if deviceState == 'idlePending':
-                        useTimeDelta = abs(useTimeLast-compTimer)
-                        #logger.get_logger().info(str(useTimeDelta)+'||||'+str(idleTimeMsgDelta))
-                        if useTimeDelta >= useTimeInt:
-                            useTimeLast = compTimer
-                            idleTimeLast = compTimer
-                            messages.append([['useTime', str(useTimeInt/60.0)]])
-                            messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(useTimeInt/60.0)]])
-                            deviceState = 'idle' # assumes its in idle unless a new code comes through
+                if whichTime == use:
+                    changeTime = compTimer
+                    # new canMsg
+                    newMsg = True
+                
+                timeMsgDelta = abs(useMsgLast-compTimer)
+                if timeMsgDelta >= timeInt:
+                    changeTimeDelta = abs(changeTime-compTimer)
+                    if changeTimeDelta >= timeInt:
+                        messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(timeInt/60.0)]])
+                        timeMsgLast = compTimer
+                    else:
+                        messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
+                        timeMsgLast = compTimer
 
-                        
-                    idleTimeMsgDelta = abs(idleTimeLast-compTimer)
-                    if idleTimeMsgDelta >= idleTimeInt:                        
-                        deviceState = 'idle' 
-                        # - set status to be in idle ONLY after the device has been in idle for the last X minutes
-                        idleTime = ['idleTime', str(idleTimeInt/60.0)]
-                        idleTimeLast = compTimer
-                        messages.append([idleTime])
-                        messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(idleTimeInt/60.0)]])
-                elif whichTime == use:
-                    # useTime
+                if newMsg:
                     const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
@@ -240,7 +223,7 @@ async def interpret():
                     #     srlNo = str(int(hexNum, 16))
                     #     serialNum =  ['serialNum', str(srlNo)]
                     #     messages.append([serialNum])  
-            
+             
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))
                 for msg in messages:

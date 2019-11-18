@@ -19,9 +19,10 @@ def recordToCSV():
             operation = 'a'
         remove = []
         with open(fileName, operation) as csvFile:
-            logger.get_logger().info('===== in the with open')
+            logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
             for data in const.MSG_TO_RECORD:
                 remove.append(data)
+                logger.get_logger().info('====== data: %s' % str(data))
                 writeMsg(csvFile, data)
             csvFile.close()
         for item in remove:

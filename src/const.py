@@ -4,6 +4,7 @@ import os
 CONFIG_PATH = '/home/User1/msV2/src/config.ini'
 LOG_NAME = ''
 CAN_DATA_FILE = 'none'
+CAN_CODES_FILE = '/home/User1/msV2/data/canCodes.txt'
 
 # shared data amongst the threads
 CAN_DATA = []

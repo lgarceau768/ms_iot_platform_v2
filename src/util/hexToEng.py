@@ -59,6 +59,9 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     hygieneInProgress = False
 
+    # read old can codes
+    const.CAN_CODES = readOldCanData()
+
     ##print('running')
     while True:
         # messages to remove after loop
@@ -133,6 +136,7 @@ async def interpret():
 
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
+                    recordCanData()
                     const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
@@ -258,6 +262,7 @@ def alreadyHave(data):
         #print('removing old code')
         const.CAN_CODES.remove(oldCode)
         const.CAN_CODES.append(data)
+        
         return returnType
     if not found:
         const.CAN_CODES.append(data)
@@ -364,3 +369,17 @@ def getErrorMessage(canMessage):
         
     return None, False
 
+def readOldCanData():
+    list = []
+    with open(const.CAN_CODES_FILE, 'r') as codes:
+        lines = codes.readlines()
+        for line in lines:
+            list.append(lines.strip().split(' '))
+    return list
+
+def recordCanData():
+    with open(const.CAN_CODES_FILE, 'w') as codes:
+        for el in const.CAN_CODES:
+            line = el[0]+' '+el[1]+' '+el[2]
+            codes.write(line+'\n')
+        codes.close()

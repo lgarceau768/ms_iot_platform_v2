@@ -51,12 +51,15 @@ def needMove(fileName, path):
     outpath = config.get('Paths', 'outPath')
     outpath = os.path.join(outpath, fileName)
     logger.get_logger().info('======max size: %s' % maxSize)
-    logger.get_logger().info('=========getsize %s' % os.path.getsize(path))
-    if os.path.getsize(path) >= int(maxSize):
-        os.system('mv %s %s' % (path, outpath))
-        newName = getFileName()
-        path = os.path.join(config.get('Paths', 'dataPath'), fileName)
-        logger.get_logger().info('Moved file %s new file %s' % (fileName, newName))
-        return (newName, path)
+    if os.path.isfile(path):
+        logger.get_logger().info('=========getsize %s' % os.path.getsize(path))
+        if os.path.getsize(path) >= int(maxSize):
+            os.system('mv %s %s' % (path, outpath))
+            newName = getFileName()
+            path = os.path.join(config.get('Paths', 'dataPath'), fileName)
+            logger.get_logger().info('Moved file %s new file %s' % (fileName, newName))
+            return (newName, path)
+        else:
+            return (fileName, path)
     else:
         return (fileName, path)

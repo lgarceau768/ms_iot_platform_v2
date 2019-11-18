@@ -117,7 +117,7 @@ async def interpret():
                     changeTime = compTimer
                     # new canMsg
                     newMsg = True
-                logger.get_logger().info('===========Before Calc')
+                #logger.get_logger().info('===========Before Calc')
                 timeMsgDelta = abs(timeMsgLast-compTimer)
                 if timeMsgDelta >= timeInt:
                     changeTimeDelta = abs(changeTime-compTimer)
@@ -129,7 +129,7 @@ async def interpret():
                         timeMsgLast = compTimer
 
 
-                logger.get_logger().info('===========After Calc')
+                #logger.get_logger().info('===========After Calc')
                 if newMsg:
                     const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))

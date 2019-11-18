@@ -1,14 +1,14 @@
 import os, csv, sys, socket, datetime
 import const as const
 import configparser
-from util.rotatingLogger import logger
+from util import rotatingLogger as logger
 
 config = configparser.ConfigParser()
 config.read(const.CONFIG_PATH)
 
 def recordToCSV():
     fileName = getFileName()
-    logger.info('Filename: %s' % fileName)
+    logger.get_logger().info('Filename: %s' % fileName)
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
     while True:
         operation = 'w'
@@ -52,7 +52,7 @@ def needMove(fileName, path):
         os.system('mv %s %s' % (path, outpath))
         newName = getFileName()
         path = os.path.join(config.get('Paths', 'dataPath'), fileName)
-        logger.info('Moved file %s new file %s' % (fileName, newName))
+        logger.get_logger().info('Moved file %s new file %s' % (fileName, newName))
         return (newName, path)
     else:
         return (fileName, path)

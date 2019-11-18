@@ -20,7 +20,7 @@ async def msIot():
     record.join()
 
 def recordDt():
-    logger.info('=========recordDt')
+    logger.get_logger().info('=========recordDt')
     recordData.recordToCSV()
 
 def runRead():

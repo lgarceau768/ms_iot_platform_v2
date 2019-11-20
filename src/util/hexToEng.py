@@ -1,4 +1,4 @@
-import os, sys, asyncio, const as const, configparser, time, datetime
+import os, sys, asyncio, const as const, configparser, time, datetime, socket
 from util import hygieneData
 from util import rotatingLogger as logger, hygieneData
 # config
@@ -60,7 +60,7 @@ async def interpret():
     hygieneInProgress = False
 
     # read old can codes
-    const.CAN_CODES = readOldCanData()
+    #const.CAN_CODES = readOldCanData()
 
     ##print('running')
     while True:
@@ -127,16 +127,15 @@ async def interpret():
                     if changeTimeDelta >= timeInt:
                         messages.append([['idleTime', str(timeInt/60.0)]])
                         messages.append([timestamp, ['timeType', 'idleTime'], ['timeAmt', str(timeInt/60.0)]])
-                        timeMsgLast = compTimer
                     else:
                         messages.append([['useTime', str(timeInt/60.0)]])
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
-                        timeMsgLast = compTimer
+                    timeMsgLast = compTimer
 
 
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
-                    recordCanData()
+                    #recordCanData()
                     const.MSG_TO_RECORD.append(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))

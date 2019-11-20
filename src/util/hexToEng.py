@@ -373,6 +373,7 @@ def readOldCanData():
     with open(const.CAN_CODES_FILE, 'r') as codes:
         lines = codes.readlines()
         for line in lines:
+            logger.get_logger().info('READING CAN CODES: '+str(line))
             list.append(lines.strip().split(' '))
     return list
 

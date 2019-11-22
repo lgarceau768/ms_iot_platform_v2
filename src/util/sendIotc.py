@@ -46,6 +46,7 @@ async def sendMessages(client):
         msg = '{"timestamp":"%s","officeName":"%s","officeLocation":"%s","deviceID":"%s","roomName":"%s"}' % (datetime.datetime.now().isoformat(), getProperty('officeName'), getProperty('officeLocation'), socket.gethostname(), getProperty('roomName'))
         logger.get_logger().info('LocationKey: %s' % msg)
         await client.send_message(msg)
+        await client.send_message(pullSerialMessage())
         await client.patch_twin_reported_properties(json.loads(fullMsg))
         await client.send_message('{"deviceEvent":"init"}')
         while True:
@@ -113,6 +114,13 @@ def getProperty(property):
         logger.get_logger().info('Property %s not found' % property)
         return 'not_found'
 
-#@asyncio.coroutine
-#async def c2dCom():
-    #print('test') # waiting on kunal to show us how to do some of this stuff
+def pullSerialMessage():
+    serial = 'no_mem'
+    if os.path.isfile('/home/User1/msV2/data/serial.txt'):
+        with open('/home/User1/msV2/data/serial.txt', 'r') as serialFile:
+            lines = serialFile.readlines()
+            serial = lines[0].strip()
+            serialFile.close()
+    msg = [['serailNum', serial], ['deviceID', socket.gethostname()], ['timestamp', datetime.datetime.now().isoformat()]]
+    return msg
+    

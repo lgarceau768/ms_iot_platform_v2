@@ -31,6 +31,10 @@ async def interpret():
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     hygieneInProgress = False
 
+    # batteryLevel
+    batteryLast = compTimer
+    
+
     ##print('running')
     while True:
         # messages to remove after loop
@@ -161,35 +165,38 @@ async def interpret():
                     
                     # battery level
                     if canID == '0x08':
-                        bt = message[7]
-                        msg = ['batteryLevel', '']
-                        if bt == '00':
-                            msg[1] = 'n/a'
-                        elif bt == '01':
-                            msg[1] = 'charged'
-                        elif bt == '02':
-                            msg[1] = 'low'
-                        elif bt == '03':
-                            msg[1] = 'very_low'
-                        elif bt == '04':
-                            msg[1] = 'empty'
-                        else:
-                            break
-                        already = False
-                        for msg in const.MSG_TO_SEND:                            
-                            for item in msg:
-                                if 'battery' in item[0]:
-                                    already = True
-                        if not already:
-                            messages.append(msg)
+                        # need to see if it was already sent
+                        if abs(batteryLast-compTimer) > 0.5:
+                            bt = message[7]
+                            msg = ['batteryLevel', '']
+                            if bt == '00':
+                                msg[1] = 'n/a'
+                            elif bt == '01':
+                                msg[1] = 'charged'
+                            elif bt == '02':
+                                msg[1] = 'low'
+                            elif bt == '03':
+                                msg[1] = 'very_low'
+                            elif bt == '04':
+                                msg[1] = 'empty'
+                            else:
+                                break
+                            already = False
+                            msg = [['batteryLevel', msg[1]], ['deviceID', socket.gethostname()], ['timestamp', datetime.datetime.now().isoformat()]]
+                            for msg in const.MSG_TO_SEND:                            
+                                for item in msg:
+                                    if 'battery' in item[0][0]:
+                                        already = True
+                            if not already:
+                                messages.append(msg)
+                            batteryLast = compTimer
 
                     # serial number
                     if canID == '0x419' and message[0] == '06':
-
+                        # update serial number
                         hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
                         srlNo = str(int(hexNum, 16))
-                        serialNum =  ['serialNum', str(srlNo)]
-                        messages.append([serialNum])  
+                        updateSerialNo(srlNo)
              
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))
@@ -243,95 +250,139 @@ def getErrorMessage(canMessage):
     ##print('hexID: '+str(hexID))
     hexID = hexID.upper()
     errorCodes = {
-        '20' : 'heartbeat gateway missing',
-        '21' : 'can node missing',
-        '22' : 'gateway eeprom error',
-        '23' : 'can error',
-        '24' : 'can error',
-        '25' : 'can error',
-        '26' : 'can error',
-        '30' : 'chair learning a1 pot error',
-        '31' : 'chair learning a2 pot error',
-        '32' : 'chair a1 acknowledge error',
-        '33' : 'chair a2 acknowledge error',
-        '34' : 'i2c water block ack error',
-        '35' : 'assistant element ack error',
-        '36' : 'foot control battery',
-        '37' : 'chair a3 acknowledge',
-        '38' : 'please charge foot control battery',
-        '39' : 'chair learning required',
-        '3A' : 'unit timeout iic internal',
-        '3B' : 'unit timeout iic external',
-        '3F' : 'reset unit iic external',
-        '40' : 'leaked water active',
-        '41' : 'safety shut off bowl suction',
-        '42' : 'amalgam serparator error',
-        '43' : 'oxygenal empty',
-        '44' : 'please perform service',
-        '45' : 'intensive germ reduction required',
-        '46' : 'deka bottle is empty',
-        '47' : 'no oxgenal bottle',
-        '48' : 'deka no bottle',
-        '49' : 'low oxygenal level',
-        '4A' : 'centra mat empty',
-        '4B' : 'centra mat too full',
-        '4C' : 'unit dc 24 exceeded by more than 10%',
-        '4D' : 'more than 20% less than unit dc 24',
-        '50' : 'safety shut off for chair',
-        '51' : 'safety shut off for the chair',
-        '53' : 'safety shut off on assistant element',
-        '54' : 'safety shut off for spittoon bowl',
-        '55' : 'safety shut off of stirrup switch',
-        '60' : 'chair e30 chair learning required',
-        '61' : 'chair e30 motor driver error',
-        '62' : 'chair e30 motor driver overheating',
-        '63' : 'chair e30 motor driver short circuiting',
-        '64' : 'chair e30 eeprom error',
-        '65' : 'chair e30 undervoltage/overvoltage',
-        '68' : 'chair e30 vacustopp switch',
-        '69' : 'chair e30 safety shut off kick plate',
-        '6A' : 'chair e30 safety shut off backrest',
-        '6B' : 'chair e30 safety shut off seat',
-        '6C' : 'chair e30 safety shut off foot rest',
-        '80' : 'reg data contr of unit missing',
-        '81' : 'reg data contr dentist missing',
-        '82' : 'reg data ims missing',
-        '83' : 'reg data of led light missing',
-        '84' : 'reg data contr unit missing',
-        '85' : 'heartbeat contr unit missing',
-        '86' : 'heartbeat contr dentist missing',
-        '87' : 'heartbeat led light missing',
-        '8C' : 'error during sd card init',
-        '8D' : 'error during eeprom access',
-        '8E' : 'error during ethernet access',
-        '8F' : 'error during gateway software update',
-        '90' : 'error during unit software update',
-        '91' : 'error during dentist software update',
-        '92' : 'error during ims software update',
-        '93' : 'error in ergocom communication',
-        '94' : 'error init config memory',
-        '95' : 'error init error memory',
-        '96' : 'firmware update set is faulty',
-        '97' : 'invalid firmware combination',
-        '98' : 'operation in debug mode',
-        '9B' : 'ethernet link lost',
-        '9C' : 'error access update files',
-        '9D' : 'unexpected reset contr unit',
-        '9E' : 'gateway can bus warn',
-        'A0' : 'gateway can bus off',
-        'A1' : 'invalid cms configuration',
-        'A2' : 'lost connection to cms server',
-        'A3' : 'no Response from cms server',
-        'A4' : 'faulty cms server download',
-        'A5' : 'cms server login failed',
-        'A6' : 'reg data contro dentist missing',
-        'A7' : 'reg data of led light missing',
-        'A8' : 'error in fw update of led light',
-        'A9' : 'led light generic error'
+        '20' : '"ID 32: Heartbeat Gateway missing',
+        '21' : 'ID 33: CAN node missing',
+        '22' : 'ID 34: Gateway EEPROM error',
+        '23' : 'ID 35: CAN error (warning / busoff)',
+        '24' : 'ID 36: CAN error (warning / busoff)',
+        '25' : 'ID 37: CAN error (warning / busoff)',
+        '26' : 'ID 38: CAN error (warning / busoff)',
+        '30' : '"ID 48: Chair learning A1 POT',
+        '31' : '"ID 49: Chair learning A2 POT',
+        '32' : '"ID 50: Chair A1 Acknowledge',
+        '33' : '"ID 51: Chair A2 Acknowledge',
+        '34' : 'ID 52: I2C water block ACK error',
+        '35' : '"ID 53: Assistant element ACK',
+        '36' : '"ID 54: Foot control Acknowledge',
+        '37' : '"ID 55: Chair A3 Acknowledge',
+        '38' : '"ID 56: Please charge foot control',
+        '39' : 'ID 57: Chair learning required',
+        '3A' : 'ID 58: Unit: Timeout IIC internal',
+        '3B' : 'ID 59: Unit: Timeout IIC external',
+        '3F' : 'ID 63: Reset Unit IIC external',
+        '40' : '"ID 64: Message ""Leakage water',
+        '41' : '"ID 65: Safety shut-off Bowl',
+        '42' : 'ID 66:Amalgam separator erro',
+        '43' : 'ID 67: Oxygenal empty',
+        '44' : 'ID 68: Please perform service',
+        '45' : '"ID 69: Intensive germ reduction',
+        '46' : 'ID 70: DEKA. Bottle is empty',
+        '47' : 'ID 71: No Oxygenal bottle',
+        '48' : 'ID 72: DEKA. No bottle',
+        '49' : 'ID 73: Low Oxygenal level',
+        '4A' : 'ID 74: CENTRAmat empty',
+        '4B' : 'ID 75: CENTRAmat too full',
+        '4C' : '"ID 76: Unit DC 24 exceeded',
+        '4D' : '"ID 77: More than 20% less',
+        '50' : 'ID 80: Safety shut-off for chair',
+        '51' : '"ID 81: Safety shutoff for the',
+        '53' : '"ID 83: Safety shut-off on assistant',
+        '54' : '"ID 84: Safety shut-off for spittoon',
+        '55' : '"ID 85: Safety shut-off of stirrup',
+        '60' : '"ID 96: Chair E30 - Chair learning',
+        '61' : '"ID 97: Chair E30 - Motor',
+        '62' : '"ID 98: Chair E 30 - Motor',
+        '63' : '"ID 99: Chair E30 - Motor',
+        '64' : 'ID 100: Chair E30 - EEPROM error',
+        '65' : '"ID 101: Chair E30 - Undervoltage/',
+        '68' : '"ID 104: Chair E30 - Vacustopp',
+        '69' : '"ID 105: Chair E30 - Safety',
+        '6A' : '"ID 106: Chair E30 - Safety',
+        '6B' : '"ID 107: Chair E30 - Safety',
+        '6C' : '"ID 108: Chair E30 - Safety',
+        '80' : '"ID 128: Reg. Data Contr. of unit',
+        '81' : '"ID 129: Reg. Data Contr. Dentist',
+        '82' : 'ID 130: Reg. data IMS missing',
+        '83' : '"ID 131: Reg. data of LED light',
+        '84' : '"ID 132: Reg. Data Contr. Unit',
+        '85' : '"ID 133: Heartbeat Contr. Unit',
+        '86' : '"ID 134: Heartbeat Contr. Dentist',
+        '87' : '"ID 135: Heartbeat LED light',
+        '8C' : '"ID 140: Error during SD card',
+        '8D' : '"ID 141: Error during EEPROM',
+        '8E' : '"ID 142: Error during Ethernet',
+        '8F' : '"ID 143: Error during Gateway',
+        '90' : '"ID 144: Error during unit software',
+        '91' : '"ID 145: Error during dentist',
+        '92' : '"ID 146: Error during IMS software',
+        '93' : 'ID 147: Error in ERGOcom communication',
+        '94' : '"ID 148: Error init config.',
+        '95' : 'ID 149: Error init error memory',
+        '96' : '"ID 150: Firmware Update Set is',
+        '97' : 'ID 151: Invalid firmware combination',
+        '98' : '"ID 152: Operation in DEBUG',
+        '9B' : 'ID 155: Ethernet link lost',
+        '9C' : '"ID 156: Error access update',
+        '9D' : '"ID 157: Unexpected Reset',
+        '9E' : '"ID 158: Unexpected Reset',
+        '9F' : 'ID 159: Gateway CAN BusWarn',
+        'A0' : 'ID 160: Gateway CAN BusOff',
+        'A1' : 'ID 161: Invalid CMS configuration',
+        'A2' : '"ID 162: Lost connection to CMS',
+        'A3' : '"ID 163: No response from CMS',
+        'A4' : '"ID 164: Faulty CMS server',
+        'A5' : 'ID 165: CMS server login failed',
+        'A6' : '"ID 166: Reg. Data Contr. Dentist',
+        'A7' : '"ID 167: Reg. data of LED light',
+        'A8' : '"ID 168: Error in FW update of',
+        'A9' : 'ID 169: LED light generic error',
+        '100' : 'ID 256: Invalid error number',
+        '101' : '"ID 257: Timeout CAN',
+        '102' : 'ID 258: Timeout CAN STARTER',
+        '103' : '"ID 259: CAN IMS TX buffer',
+        '104' : '"ID 260: menu_autochange: unknown',
+        '105' : '"ID 261: Water block pressure',
+        '106' : '"ID 262: Timeout CAN',
+        '107' : 'ID 263: EEPROM error',
+        '108' : '"ID 264: Operation in DEBUG',
+        '109' : '"ID 265: Dentist control do not',
+        '10A' : '"ID 266: Heartbeat Gateway',
+        '10B' : '"ID 267: Stepper motor electr.',
+        '10C' : 'ID 268: Stepper motor temperature',
+        '10D' : '"ID 269: Timeout stepper motor',
+        '10E' : '"ID 270: Dentist control unit key',
+        '1C0' : 'ID 448: LED light generic error',
+        '1C1' : 'ID 449: LED light EEPROM error',
+        '1C2' : '"ID 450: LED light error in system',
+        '1C3' : '"ID 451: LED light configuration',
+        '1C4' : '"ID 452: LED light calibration',
+        '1C5' : 'ID 453: LED light SD card error.',
+        '1C6' : '"ID 454: LED light error in firmware',
+        '1C7' : '"ID 455: LED light error in firmware',
+        '1C8' : '"ID 456: LED light error in firmware',
+        '1C9' : '"ID 457: LED light colour sensor',
+        '1CA' : '"ID 458: LED light temperature',
+        '1CB' : '"ID 459: LED light temperature',
+        '1CC' : '"ID 460: LED light temperature',
+        '1CD' : '"ID 461: LED light temperature',
+        '1CE' : '"ID 462: LED light colour channel',
+        '1CF' : '"ID 463: LED light colour channel',
+        '1D0' : '"ID 464: LED light colour channel',
+        '1D1' : '"ID 465: LED light colour channel',
+        '1D2' : '"ID 466: LED light colour channel',
+        '1D3' : '"ID 467: LED light colour channel',
+        '1D4' : '"ID 468: LED light colour channel',
+        '1D5' : '"ID 469: LED light colour channel'
     } 
-
     if hexID in errorCodes:
         return errorCodes[hexID].replace(' ','_'), True
         
     return None, False
+
+# update the serial number into the data folder
+def updateSerialNo(serial):
+    with open('/home/User1/msV2/data/serial.txt', 'w') as serialFile:
+        serialFile.write(serial)
+        serialFile.close()
+
 

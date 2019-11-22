@@ -97,6 +97,7 @@ async def interpret():
                     else:
                         start = hygData[0]
                         stop = hygData[1]
+                        
                         typeHyg = hygData[2]
                         # need to find difference in hours btw now and the last one
                         now = datetime.datetime.now()
@@ -133,7 +134,7 @@ async def interpret():
 
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
-                    const.MSG_TO_RECORD.append(data)
+                    record(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     

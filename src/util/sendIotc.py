@@ -65,7 +65,7 @@ async def sendMessages(client):
                         for k in range(len(messageList)):
                             if messageList[k][0] in properties:
                                 prop = True
-                                if 'hygiene' in messageList[k][0]:
+                                if 'hygiene' in messageList[k][0] or 'battery' in messageList[k][0]:
                                     hyg = True
                             jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
                         jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
@@ -76,7 +76,7 @@ async def sendMessages(client):
                             await client.send_message(jsonStr)
                         else:    
                             if hyg:
-                                logger.get_logger().info('Sending Hygiene Update: %s\n\t' % jsonMsg)
+                                logger.get_logger().info('Sending Hygiene/Battery Update: %s\n\t' % jsonMsg)
                                 await client.send_message(jsonStr)                    
                             logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
                             await client.patch_twin_reported_properties(jsonMsg)

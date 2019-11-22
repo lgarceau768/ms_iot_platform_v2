@@ -100,6 +100,7 @@ async def interpret():
                     else:
                         start = hygData[0]
                         stop = hygData[1]
+                        
                         typeHyg = hygData[2]
                         # need to find difference in hours btw now and the last one
                         now = datetime.datetime.now()
@@ -135,8 +136,7 @@ async def interpret():
 
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
-                    #recordCanData()
-                    const.MSG_TO_RECORD.append(data)
+                    record(data)
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     
@@ -367,19 +367,3 @@ def getErrorMessage(canMessage):
         return errorCodes[hexID].replace(' ','_'), True
         
     return None, False
-
-def readOldCanData():
-    list = []
-    with open(const.CAN_CODES_FILE, 'r') as codes:
-        lines = codes.readlines()
-        for line in lines:
-            logger.get_logger().info('READING CAN CODES: '+str(line))
-            list.append(lines.strip().split(' '))
-    return list
-
-def recordCanData():
-    with open(const.CAN_CODES_FILE, 'w') as codes:
-        for el in const.CAN_CODES:
-            line = el[0]+' '+el[1]+' '+el[2]
-            codes.write(line+'\n')
-        codes.close()

@@ -54,30 +54,31 @@ async def sendMessages(client):
             removes = []
             if len(const.MSG_TO_SEND) > 0:
                 for i in range(len(const.MSG_TO_SEND)):
-                    lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
-                    #print('\n\t'+str(lastTimeConnected))
-                    messageList = const.MSG_TO_SEND[i]
-                    jsonStr = '{'
-                    prop = False
-                    hyg = False
-                    for k in range(len(messageList)):
-                        if messageList[k][0] in properties:
-                            prop = True
-                            if 'hygiene' in messageList[k][0]:
-                                hyg = True
-                        jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
-                    jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
-                    jsonMsg = json.loads(jsonStr)
-                    if not prop:
-                        logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonStr)
-                        msg = azure.iot.device.Message(jsonMsg)
-                        await client.send_message(jsonStr)
-                    else:    
-                        if hyg:
-                            logger.get_logger().info('Sending Hygiene Update: %s\n\t' % jsonMsg)
-                            await client.send_message(jsonStr)                    
-                        logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
-                        await client.patch_twin_reported_properties(jsonMsg)
+                    if i not in removes:
+                        lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
+                        #print('\n\t'+str(lastTimeConnected))
+                        messageList = const.MSG_TO_SEND[i]
+                        jsonStr = '{'
+                        prop = False
+                        hyg = False
+                        for k in range(len(messageList)):
+                            if messageList[k][0] in properties:
+                                prop = True
+                                if 'hygiene' in messageList[k][0]:
+                                    hyg = True
+                            jsonStr = jsonStr+ '"%s":"%s",' % (messageList[k][0], messageList[k][1])
+                        jsonStr = jsonStr+'"deviceID":"%s"}' % socket.gethostname()
+                        jsonMsg = json.loads(jsonStr)
+                        if not prop:
+                            logger.get_logger().info('Sending Telemetry:\n\t %s' % jsonStr)
+                            msg = azure.iot.device.Message(jsonMsg)
+                            await client.send_message(jsonStr)
+                        else:    
+                            if hyg:
+                                logger.get_logger().info('Sending Hygiene Update: %s\n\t' % jsonMsg)
+                                await client.send_message(jsonStr)                    
+                            logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
+                            await client.patch_twin_reported_properties(jsonMsg)
                     await client.patch_twin_reported_properties(lastTimeConnected)
                     removes.append(messageList)
                 for item in removes:

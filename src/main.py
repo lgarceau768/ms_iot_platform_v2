@@ -1,4 +1,4 @@
-# Version: 1.1 Implemented a sleep timer for sending messages to iot central to prevent the retry process from engaging
+# Version: 1.2 Implemented the syntax for sending serial num, battery life, and better error codes
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
 from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData, readOld
 from threading import Thread

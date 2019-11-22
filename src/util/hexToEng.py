@@ -105,10 +105,10 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
                     timeMsgLast = compTimer
 
-
+                recordCanData()
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
-                    recordCanData()
+                    
                     logger.get_logger().info('useCode: '+str(data))
                     #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
                     

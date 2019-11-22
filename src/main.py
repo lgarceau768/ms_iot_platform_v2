@@ -18,7 +18,6 @@ async def msIot():
     read.start()
     translate.start()
     send.start()
-    record.join()
 
 def runRead():
     asyncio.run(readCan.readData())

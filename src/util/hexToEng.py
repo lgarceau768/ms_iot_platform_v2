@@ -375,7 +375,7 @@ def getErrorMessage(canMessage):
         '1D5' : '"ID 469: LED light colour channel'
     } 
     if hexID in errorCodes:
-        return errorCodes[hexID].replace(' ','_'), True
+        return errorCodes[hexID].replace(' ','_').replace(':','='), True
         
     return None, False
 

@@ -1,6 +1,6 @@
 import os, sys, asyncio, const as const, configparser, time, datetime, socket
 from util import hygieneData
-from util import rotatingLogger as logger, hygieneData
+from util import rotatingLogger as logger, hygieneData, readOld
 # config
 config = configparser.ConfigParser()
 config.read(const.CONFIG_PATH)
@@ -30,9 +30,6 @@ async def interpret():
     hygieneTimeDelta = abs(hygieneTimeLast-compTimer)
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
     hygieneInProgress = False
-
-    # read old can codes
-    const.CAN_CODES = readOldCanData()
 
     ##print('running')
     while True:
@@ -105,7 +102,6 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
                     timeMsgLast = compTimer
 
-                recordCanData()
                 #logger.get_logger().info('===========After Calc')
                 if newMsg:
                     
@@ -340,18 +336,3 @@ def getErrorMessage(canMessage):
         
     return None, False
 
-def readOldCanData():
-    list = []
-    with open(const.CAN_CODES_FILE, 'r') as codes:
-        lines = codes.readlines()
-        for line in lines:
-            logger.get_logger().info('READING CAN CODES: '+str(line))
-            list.append(lines.strip().split(' '))
-    return list
-
-def recordCanData():
-    with open(const.CAN_CODES_FILE, 'w') as codes:
-        for el in const.CAN_CODES:
-            line = el[0]+' '+el[1]+' '+el[2]
-            codes.write(line+'\n')
-        codes.close() 

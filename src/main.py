@@ -2,7 +2,7 @@
 
 
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
-from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData
+from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData, readOld
 from threading import Thread
 
 @asyncio.coroutine
@@ -15,12 +15,27 @@ async def msIot():
     translate = Thread(target=runTranslate)
     send = Thread(target=runSend, args=[client])
     record = Thread(target=recordDt)
+    readOld1 = Thread(target=readFromText)
+    readOld2 = Thread(target=sendToText)
     # all threads run in parallel and have shared mutex data
     read.start()
     translate.start()
     send.start()
     record.start()
+    readOld1.start()
+    readOld2.start()
+
     record.join()
+    readOld1.join()
+    readOld2.join()
+
+def readFromText():
+    logger.get_logger().info('Starting .txt can file reading thread')
+    readOld.readOldCanData()
+
+def sendToText():
+    logger.get_logger().info('Sending the can messages in const.CAN_CODES to txt file thread started')
+    readOld.recordCanData()
 
 def recordDt():
     logger.get_logger().info('=========recordDt')

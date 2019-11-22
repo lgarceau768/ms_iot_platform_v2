@@ -19,6 +19,8 @@ async def msIot():
     read.start()
     translate.start()
     send.start()
+    record.start()
+    record.join()
 
 def recordDt():
     logger.get_logger().info('=========recordDt')

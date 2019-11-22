@@ -32,7 +32,7 @@ async def interpret():
     hygieneInProgress = False
 
     # batteryLevel
-    batteryLast = compTimer
+    batteryLast = 0
     
 
     ##print('running')

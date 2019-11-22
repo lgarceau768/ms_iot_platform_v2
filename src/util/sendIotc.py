@@ -122,5 +122,6 @@ def pullSerialMessage():
             serial = lines[0].strip()
             serialFile.close()
     msg = '{"serialNum":"%s","deviceID":"%s","timestamp":"%s"}' % (serial, socket.gethostname(), datetime.datetime.now().isoformat())
+    logger.get_logger().info('Serial message: %s' % msg)
     return msg
     

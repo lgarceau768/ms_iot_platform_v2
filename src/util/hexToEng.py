@@ -60,7 +60,7 @@ async def interpret():
     hygieneInProgress = False
 
     # read old can codes
-    #const.CAN_CODES = readOldCanData()
+    const.CAN_CODES = readOldCanData()
 
     ##print('running')
     while True:

@@ -1,3 +1,6 @@
+# Version: 
+
+
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
 from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData
 from threading import Thread

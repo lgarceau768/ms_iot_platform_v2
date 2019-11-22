@@ -166,15 +166,15 @@ async def interpret():
                         if bt == '00':
                             msg[1] = 'n/a'
                         elif bt == '01':
-                            msg[1] = 'full'
+                            msg[1] = 'charged'
                         elif bt == '02':
-                            msg[1] = 'half'
-                        elif bt == '03':
                             msg[1] = 'low'
+                        elif bt == '03':
+                            msg[1] = 'very_low'
                         elif bt == '04':
-                            msg[1] = 'critically_low'
+                            msg[1] = 'empty'
                         else:
-                            msg[1] = 'warning'
+                            break
                         already = False
                         for msg in const.MSG_TO_SEND:                            
                             for item in msg:
@@ -184,11 +184,12 @@ async def interpret():
                             messages.append(msg)
 
                     # serial number
-                    # if canID == '0x419' and message[0] == '06':
-                    #     hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
-                    #     srlNo = str(int(hexNum, 16))
-                    #     serialNum =  ['serialNum', str(srlNo)]
-                    #     messages.append([serialNum])  
+                    if canID == '0x419' and message[0] == '06':
+
+                        hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
+                        srlNo = str(int(hexNum, 16))
+                        serialNum =  ['serialNum', str(srlNo)]
+                        messages.append([serialNum])  
              
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))
@@ -239,8 +240,6 @@ def alreadyHave(data):
 def getErrorMessage(canMessage):
     mgsArray = canMessage.split(' ')
     hexID = mgsArray[2]
-    if hexID == '38':
-        return None, False
     ##print('hexID: '+str(hexID))
     hexID = hexID.upper()
     errorCodes = {

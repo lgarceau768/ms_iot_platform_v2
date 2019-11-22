@@ -1,4 +1,4 @@
-import os, asyncio, sys, azure.iot.device, json, socket, const, datetime, subprocess
+import os, asyncio, sys, azure.iot.device, json, socket, const, datetime, subprocess, time
 from azure.iot.device import X509
 from azure.iot.device.aio import IoTHubDeviceClient
 from getmac import get_mac_address
@@ -49,6 +49,8 @@ async def sendMessages(client):
         await client.patch_twin_reported_properties(json.loads(fullMsg))
         await client.send_message('{"deviceEvent":"init"}')
         while True:
+            # need to have a sending delay to wait for the acknowledgement of the message being sent
+            time.sleep(2)
             removes = []
             if len(const.MSG_TO_SEND) > 0:
                 for i in range(len(const.MSG_TO_SEND)):

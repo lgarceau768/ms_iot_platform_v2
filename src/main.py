@@ -1,6 +1,4 @@
-# Version: 
-
-
+# Version: 1.1 Implemented a sleep timer for sending messages to iot central to prevent the retry process from engaging
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
 from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData, readOld
 from threading import Thread

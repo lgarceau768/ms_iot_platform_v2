@@ -1,4 +1,4 @@
-# Version: 1.2 Implemented the syntax for sending serial num, battery life, and better error codes
+# Version: 1.3 Added another wait to the sending of the messages
 import os, sys, socket, configparser, datetime, const, shutil, asyncio
 from util import readCan, rotatingLogger as logger, hexToEng, sendIotc, recordData, readOld
 from threading import Thread

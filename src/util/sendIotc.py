@@ -56,7 +56,8 @@ async def sendMessages(client):
             if len(const.MSG_TO_SEND) > 0:
                 time.sleep(2) # added another wait to the program
                 for i in range(len(const.MSG_TO_SEND)):
-                    if i not in removes:
+                    if const.MSG_TO_SEND[i] not in removes:
+                        removes.append(const.MSG_TO_SEND[i])
                         lastTimeConnected = json.loads('{"lastTimeConnected":"%s"}' % datetime.datetime.now().isoformat())
                         messageList = const.MSG_TO_SEND[i]
                         jsonStr = '{'
@@ -81,7 +82,7 @@ async def sendMessages(client):
                             logger.get_logger().info('Sending Property:\n\t %s' % jsonMsg)
                             await client.patch_twin_reported_properties(jsonMsg)
                     await client.patch_twin_reported_properties(lastTimeConnected)
-                    removes.append(const.MSG_TO_SEND[i])
+                    
                 for item in removes:
                     const.MSG_TO_SEND.remove(item)
             

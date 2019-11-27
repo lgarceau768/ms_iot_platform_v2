@@ -5,6 +5,13 @@
 # clear iptables
 /home/User1/emsa/cleariptables
 
+
+# We want to wait until there is network connectivity
+while ! ping -c 1 8.8.8.8; do
+    echo "Waiting for 8.8.8.8 - network interface might be down..."
+    sleep 1
+done
+
 # get name of the device
 deviceName=$(hostname)
 

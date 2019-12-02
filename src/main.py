@@ -21,12 +21,12 @@ async def msIot():
     send.start()
     record.start()
     
-    readOld1.start()
-    readOld2.start()
+    #readOld1.start()
+    #readOld2.start()
 
     record.join()
-    readOld1.join()
-    readOld2.join()
+    #readOld1.join()
+    #readOld2.join()
 
 def readFromText():
     logger.get_logger().info('Starting .txt can file reading thread')

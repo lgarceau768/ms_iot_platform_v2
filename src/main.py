@@ -22,7 +22,7 @@ async def msIot():
     record.start()
     readOld.readOldCanData()
     #readOld1.start()
-    readOld2.start()
+    #readOld2.start()
 
     record.join()
     #readOld1.join()

@@ -110,8 +110,8 @@ async def interpret():
                 if newMsg:
                     
                     logger.get_logger().info('useCode: '+str(data))
-                    #logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
-                    
+                    logger.get_logger().info('msgToRecord: '+str(const.MSG_TO_RECORD))
+                    const.MSG_TO_RECORD.append(data)
                    
                     ### check for other codes as well
                     canID = data[1]

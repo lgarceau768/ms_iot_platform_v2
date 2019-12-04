@@ -23,7 +23,7 @@ def recordToCSV():
             for data in const.MSG_TO_RECORD:
                 #logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
                 remove.append(data)
-                #logger.get_logger().info('====== data: %s' % str(data))
+                logger.get_logger().info('====== data: %s' % str(data))
                 csvFile.write(writeMsg(data))
 
             csvFile.close()

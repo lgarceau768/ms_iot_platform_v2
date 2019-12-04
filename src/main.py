@@ -41,7 +41,7 @@ def recordDt():
     recordData.recordToCSV()
 
 def runRead():
-    time.sleep(5) # need to wait to read the old can messages
+    #time.sleep(5) # need to wait to read the old can messages
     asyncio.run(readCan.readData())
 
 def runTranslate():

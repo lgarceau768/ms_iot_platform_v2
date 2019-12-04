@@ -20,11 +20,12 @@ def recordToCSV():
         remove = []
         with open(path, operation) as csvFile:
             #logger.get_logger().info('here')
-            for data in const.MSG_TO_RECORD:
-                logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
-                remove.append(data)
-                logger.get_logger().info('====== data: %s' % str(data))
-                csvFile.write(writeMsg(data))
+            for data in const.MSG_TO_RECORD:                
+                if data not in remove:
+                    logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
+                    remove.append(data)
+                    logger.get_logger().info('====== data: %s' % str(data))
+                    csvFile.write(writeMsg(data))
 
             csvFile.close()
         for item in remove:

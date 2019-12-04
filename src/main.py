@@ -26,7 +26,7 @@ async def msIot():
 
     record.join()
     #readOld1.join()
-    readOld2.join()
+    #readOld2.join()
 
 def readFromText():
     logger.get_logger().info('Starting .txt can file reading thread')

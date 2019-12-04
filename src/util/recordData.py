@@ -14,12 +14,12 @@ def recordToCSV():
     while True:
         operation = 'w'
         (fileName, path) = needMove(fileName, path)
-        logger.get_logger().info('===========After needMove: %s %s' % (fileName, path))
+        #logger.get_logger().info('===========After needMove: %s %s' % (fileName, path))
         if os.path.isfile(path):
             operation = 'a'
         remove = []
         with open(path, operation) as csvFile:
-            logger.get_logger().info('here')
+            #logger.get_logger().info('here')
             for data in const.MSG_TO_RECORD:
                 logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
                 remove.append(data)

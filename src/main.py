@@ -20,12 +20,12 @@ async def msIot():
     translate.start()
     send.start()
     record.start()
-    
-    readOld1.start()
+    readOld.readOldCanData()
+    #readOld1.start()
     readOld2.start()
 
     record.join()
-    readOld1.join()
+    #readOld1.join()
     readOld2.join()
 
 def readFromText():

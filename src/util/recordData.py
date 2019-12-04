@@ -12,7 +12,7 @@ def recordToCSV():
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
     logger.get_logger().info('CSV Filename: %s Path: %s' % (fileName, path))
     while True:
-        logger.get_logger().info('recording codes')
+        #logger.get_logger().info('recording codes')
         with open(const.CAN_CODES_FILE, 'w') as codes:
             for el in const.CAN_CODES:
                 line = el[0]+' '+el[1]+' '+el[2]
@@ -29,9 +29,9 @@ def recordToCSV():
             #logger.get_logger().info('here')
             for data in const.MSG_TO_RECORD:                
                 if data not in remove:
-                    logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
+                    #logger.get_logger().info('===== size: %s' % str(len(const.MSG_TO_RECORD)))
                     remove.append(data)
-                    logger.get_logger().info('====== data: %s' % str(data))
+                   # logger.get_logger().info('====== data: %s' % str(data))
                     csvFile.write(writeMsg(data))
 
             csvFile.close()

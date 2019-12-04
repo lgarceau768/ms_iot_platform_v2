@@ -14,6 +14,7 @@ def readOldCanData():
 
 def recordCanData():
     while True:
+        logger.get_logger().info('recording')
         with open(const.CAN_CODES_FILE, 'w') as codes:
             for el in const.CAN_CODES:
                 line = el[0]+' '+el[1]+' '+el[2]

@@ -35,7 +35,7 @@ async def readData():
     filters = config.get('Can', 'filters').replace(' ','').strip().lower().split(',')
     #print(str(filters))
     while True:
-        logger.get_logger().info('Reading')
+        #logger.get_logger().info('Reading')
         #print('reading')
         try:
             message = can_bus.recv()
@@ -47,6 +47,7 @@ async def readData():
                     message = '%s ID: %s Message: %s' % (str(timestamp), str(canID), str(canMessage))
                     messageObj = (timestamp, canID, canMessage)
                     const.CAN_DATA.append(messageObj)
+                    logger.get_logger().info(len(const.CAN_DATA))
                     ##print(str(const.CAN_DATA))
         except Exception as e:
             error = traceback.format_exc()

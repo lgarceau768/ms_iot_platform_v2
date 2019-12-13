@@ -92,7 +92,7 @@ async def interpret():
                 idle = True
                 use = False
                 newMsg = False
-                logger.get_logger().info('whichtime: '+str(whichTime))
+                #logger.get_logger().info('whichtime: '+str(whichTime))
                 if whichTime == use:
                     const.MSG_TO_RECORD.append(data)
                     if (data[1] == '0x08') and (old8 != (" ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9]))):
@@ -164,9 +164,9 @@ async def interpret():
                             if message[5] == '00' and hygieneInProgress and (message[4] == '09' or message[4] == '01'):
                                 now = datetime.datetime.now().isoformat()
                                 hygieneType = ''
-                                if message[4] == '01':
+                                if message[4] == '09':
                                     hygieneType = 'germ_reduction'
-                                elif message[4] == '09':
+                                elif message[4] == '01':
                                     hygieneType = 'intensive_germ_reduction'
                                 hygieneInProgress = False
                                 hygLast = ['hygieneLast', '0']

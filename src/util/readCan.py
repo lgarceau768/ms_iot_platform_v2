@@ -35,7 +35,8 @@ async def readData():
     filters = config.get('Can', 'filters').replace(' ','').strip().lower().split(',')
     #print(str(filters))
     while True:
-        ##print('reading')
+        logger.get_logger().info('Reading')
+        #print('reading')
         try:
             message = can_bus.recv()
             if message is not None:

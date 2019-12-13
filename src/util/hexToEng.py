@@ -94,6 +94,7 @@ async def interpret():
                 newMsg = False
 
                 if whichTime == use:
+                    logger.get_logger().info('test')
                     const.MSG_TO_RECORD.append(data)
                     if (data[1] == '0x08') and (old8 != (" ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9]))):
                         old8 = " ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9])

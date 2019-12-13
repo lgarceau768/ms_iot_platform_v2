@@ -92,7 +92,7 @@ async def interpret():
                 idle = True
                 use = False
                 newMsg = False
-
+                logger.get_logger().info('whichtime: '+str(whichTime))
                 if whichTime == use:
                     const.MSG_TO_RECORD.append(data)
                     if (data[1] == '0x08') and (old8 != (" ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9]))):

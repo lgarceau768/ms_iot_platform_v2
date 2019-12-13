@@ -20,13 +20,13 @@ async def msIot():
     translate.start()
     send.start()
     record.start()
-    
-    readOld1.start()
-    readOld2.start()
+    readOld.readOldCanData()
+    #readOld1.start()
+    #readOld2.start()
 
     record.join()
-    readOld1.join()
-    readOld2.join()
+    #readOld1.join()
+    #readOld2.join()
 
 def readFromText():
     logger.get_logger().info('Starting .txt can file reading thread')
@@ -41,7 +41,7 @@ def recordDt():
     recordData.recordToCSV()
 
 def runRead():
-    time.sleep(5) # need to wait to read the old can messages
+    #time.sleep(5) # need to wait to read the old can messages
     asyncio.run(readCan.readData())
 
 def runTranslate():

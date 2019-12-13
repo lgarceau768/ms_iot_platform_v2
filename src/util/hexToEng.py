@@ -112,7 +112,7 @@ async def interpret():
 
 
                     
-                logger.get_logger().info('===========after Calc')
+                #logger.get_logger().info('===========after Calc')
                 timeMsgDelta = abs(timeMsgLast-compTimer)
                 if timeMsgDelta >= timeInt:
                     changeTimeDelta = abs(changeTime-compTimer)

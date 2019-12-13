@@ -29,7 +29,9 @@ async def interpret():
     hygieneTimeLast = compTimer
     hygieneTimeDelta = abs(hygieneTimeLast-compTimer)
     hygieneTimeInt = float(config.get('Time', 'hygieneTime'))
-    hygieneInProgress = False
+    hygieneInProgress = False    
+    old8 = '00 00 00 00 00 00 00'
+    old10 = '00 00 00 00 00 00 00'
 
     # batteryLevel
     batteryLast = 0
@@ -46,6 +48,7 @@ async def interpret():
         
         # need to interpret the can data
         for data in const.CAN_DATA:
+            data[1] = data[1].strip().replace(' ','')
             compTimer = time.time()/60
             already = False
             already2 = False
@@ -91,9 +94,24 @@ async def interpret():
                 newMsg = False
 
                 if whichTime == use:
-                    changeTime = compTimer
-                    # new canMsg
-                    newMsg = True
+                    const.MSG_TO_RECORD.append(data)
+                    if (data[1] == '0x08') and (old8 != (" ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9]))):
+                        old8 = " ".join(data[2].split()[0:1])+' '+" ".join(data[2].split()[2:9])
+                        changeTime = compTimer
+                        # new canMsg
+                        newMsg = True
+                    elif (data[1] == '0x10') and (old10 != (" ".join(data[2].split()[0:3])+' '+" ".join(data[2].split()[4:9]))):
+                        old10 = " ".join(data[2].split()[0:3])+' '+" ".join(data[2].split()[4:9])
+                        changeTime = compTimer
+                        # new canMsg
+                        newMsg = True
+                    elif (data[1] != '0x08') and (data[1] != '0x10'):
+                        changeTime = compTimer
+                        # new canMsg
+                        newMsg = True
+
+
+                    
                 #logger.get_logger().info('===========Before Calc')
                 timeMsgDelta = abs(timeMsgLast-compTimer)
                 if timeMsgDelta >= timeInt:
@@ -223,7 +241,6 @@ def alreadyHave(data):
             found = True
             oldCode = item
             # same can code
-            
             if item[2].strip().replace(' ','').lower() == data[2].strip().replace(' ','').lower():
                 # the same can message
                 item = data
@@ -296,10 +313,10 @@ def getErrorMessage(canMessage):
         '64' : 'ID 100: Chair E30 - EEPROM error',
         '65' : 'ID 101: Chair E30 - Undervoltage/',
         '68' : 'ID 104: Chair E30 - Vacustopp',
-        '69' : 'ID 105: Chair E30 - Safety',
-        '6A' : 'ID 106: Chair E30 - Safety',
-        '6B' : 'ID 107: Chair E30 - Safety',
-        '6C' : 'ID 108: Chair E30 - Safety',
+        '69' : 'ID 105: Chair E30 - Safety shut-off kick plate',
+        '6A' : 'ID 106: Chair E30 - Safety shut-off backrest',
+        '6B' : 'ID 107: Chair E30 - Safety shut-off seat',
+        '6C' : 'ID 108: Chair E30 - Safety shut-off foot rest',
         '80' : 'ID 128: Reg. Data Contr. of unit',
         '81' : 'ID 129: Reg. Data Contr. Dentist',
         '82' : 'ID 130: Reg. data IMS missing',

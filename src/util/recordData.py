@@ -13,11 +13,11 @@ def recordToCSV():
     logger.get_logger().info('CSV Filename: %s Path: %s' % (fileName, path))
     while True:
         #logger.get_logger().info('recording codes')
-        with open(const.CAN_CODES_FILE, 'w') as codes:
-            for el in const.CAN_CODES:
-                line = el[0]+' '+el[1]+' '+el[2]
-                codes.write(line+'\n')
-            codes.close() 
+        #with open(const.CAN_CODES_FILE, 'w') as codes:
+        #    for el in const.CAN_CODES:
+        #        line = el[0]+' '+el[1]+' '+el[2]
+        #        codes.write(line+'\n')
+        #    codes.close() 
 
         operation = 'w'
         (fileName, path) = needMove(fileName, path)

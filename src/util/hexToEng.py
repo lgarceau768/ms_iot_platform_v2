@@ -147,7 +147,7 @@ async def interpret():
                     if canID == '0x08':
                         if message[5] != '80':      
                             # test without the hygiene in progress variable being used
-                            hygieneInProgress = True                      
+                            #hygieneInProgress = True                      
                             if message[4] == '88' and message[5] == '01' and not hygieneInProgress:
                                 now = datetime.datetime.now().isoformat()
                                 hygieneInProgress = True

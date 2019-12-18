@@ -1,5 +1,5 @@
 import os, sys, asyncio, const as const, configparser, time, datetime, socket
-from util import hygieneData
+from util import hygieneData, service
 from util import rotatingLogger as logger, hygieneData, readOld
 # config
 config = configparser.ConfigParser()
@@ -216,7 +216,15 @@ async def interpret():
                         hexNum = str(message[3])+str(message[4])+str(message[5])+str(message[6])
                         srlNo = str(int(hexNum, 16))
                         updateSerialNo(srlNo)
-             
+
+                    if canID in ['0x60', '0x61']:
+                        # can message is here:
+                        jsonMessage = service.parseData(msg)
+                        const.SERVICE_DATA.append(msg)
+                        for item in jsonMessage:
+                            const.SERVICE_DATA.append(item)
+                        const.MSG_TO_RECORD.append(msg)
+
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))
                 for msg in messages:

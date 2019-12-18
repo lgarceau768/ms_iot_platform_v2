@@ -8,8 +8,9 @@ config.read(const.CONFIG_PATH)
 
 def recordToCSV():
     fileName = getFileName()
-
+    servicePath = os.path.join(const.SERVICE_FILE, getFileName().replace('.csv', 'serviceData.csv'))
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
+    logger.get_logger().info('Service Data Path %s' % fileName)
     logger.get_logger().info('CSV Filename: %s Path: %s' % (fileName, path))
     while True:
         #logger.get_logger().info('recording codes')
@@ -18,6 +19,32 @@ def recordToCSV():
         #        line = el[0]+' '+el[1]+' '+el[2]
         #        codes.write(line+'\n')
         #    codes.close() 
+        usingServicePatch = False
+        if usingServicePatch:
+        ### Writing Service Data
+            serviceOperation = 'w'
+            if os.path.isfile(servicePath):
+                serviceOperation = 'a'
+
+            serviceRemove1 = []
+            serviceRemove2 = []
+            with open(servicePath, serviceOperation) as sFile:
+                for item in const.SERVICE_DATA:
+                    if item not in serviceRemove1 and item not in serviceRemove2:
+                        if item is tuple:
+                            sFile.write(writeMsg(item))
+                            serviceRemove2.append(item)
+                        else:
+                            timestamp = datetime.datetime.today().isoformat()
+                            sFile.write(timestamp+'\t'+item+'\n')
+                            serviceRemove1.append(item)
+        
+        for item in serviceRemove1:
+            const.SERVICE_DATA.remove(item)
+        for item in serviceRemove2:
+            const.SERVICE_DATA.remove(item)
+
+        ### Writing CAN Data
 
         operation = 'w'
         (fileName, path) = needMove(fileName, path)

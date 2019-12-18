@@ -31,7 +31,7 @@ def recordToCSV():
             with open(servicePath, serviceOperation) as sFile:
                 for item in const.SERVICE_DATA:
                     if item not in serviceRemove1 and item not in serviceRemove2:
-                        if item is tuple:
+                        if len(item) == 3:
                             sFile.write(writeMsg(item))
                             serviceRemove2.append(item)
                         else:

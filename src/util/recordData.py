@@ -10,7 +10,7 @@ def recordToCSV():
     fileName = getFileName()
     servicePath = os.path.join(const.SERVICE_FILE, getFileName().replace('.csv', 'serviceData.csv'))
     path = os.path.join(config.get('Paths', 'dataPath'), fileName)
-    logger.get_logger().info('Service Data Path %s' % fileName)
+    logger.get_logger().info('Service Data Path %s' % servicePath)
     logger.get_logger().info('CSV Filename: %s Path: %s' % (fileName, path))
     while True:
         #logger.get_logger().info('recording codes')

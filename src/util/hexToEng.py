@@ -124,7 +124,6 @@ async def interpret():
                         messages.append([timestamp, ['timeType', 'useTime'], ['timeAmt', str(timeInt/60.0)]])
                     timeMsgLast = compTimer
 
-                #logger.get_logger().info('===========After Calc')
                 if newMsg:
                     
                     logger.get_logger().info('useCode: '+str(data))

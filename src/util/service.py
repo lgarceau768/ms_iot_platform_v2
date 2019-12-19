@@ -1,5 +1,6 @@
 import os, sys, json
 
+
 def HTD(hexStr):
     hexStr = hexStr.lower()
     if hexStr[0] == 'a': f = 10
@@ -26,7 +27,7 @@ def parseData(data):
     canID = data[1].strip().replace('ID:','').replace(' ','')
     timestamp = data[0]
     data = data[2].strip().split(' ')
-    del data[0]
+    #del data[0] when using csv file
     messages = []
 
     # 0x60 and 0x61 are the main codes

@@ -39,10 +39,10 @@ def recordToCSV():
                             sFile.write(timestamp+'\t'+item+'\n')
                             serviceRemove1.append(item)
         
-        for item in serviceRemove1:
-            const.SERVICE_DATA.remove(item)
-        for item in serviceRemove2:
-            const.SERVICE_DATA.remove(item)
+            for item in serviceRemove1:
+                const.SERVICE_DATA.remove(item)
+            for item in serviceRemove2:
+                const.SERVICE_DATA.remove(item)
 
         ### Writing CAN Data
 

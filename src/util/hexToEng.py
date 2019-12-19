@@ -222,6 +222,7 @@ async def interpret():
                         # can message is here:
                         jsonMessage = service.parseData(data)
                         const.SERVICE_DATA.append(data)
+                        logger.get_logger().info(jsonMessage)
                         for item in jsonMessage:
                             const.SERVICE_DATA.append(item)
                         const.MSG_TO_RECORD.append(data)

@@ -217,7 +217,8 @@ async def interpret():
                         srlNo = str(int(hexNum, 16))
                         updateSerialNo(srlNo)
 
-                    if canID in ['0x60', '0x61']:
+                    if canID == '0x60' or canID == '0x61':
+                        logger.get_logger().info('Service mode can message')
                         # can message is here:
                         jsonMessage = service.parseData(msg)
                         const.SERVICE_DATA.append(msg)

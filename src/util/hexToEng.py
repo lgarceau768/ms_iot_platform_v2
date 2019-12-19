@@ -220,11 +220,11 @@ async def interpret():
                     if canID == '0x60' or canID == '0x61':
                         logger.get_logger().info('Service mode can message')
                         # can message is here:
-                        jsonMessage = service.parseData(msg)
-                        const.SERVICE_DATA.append(msg)
+                        jsonMessage = service.parseData(data)
+                        const.SERVICE_DATA.append(data)
                         for item in jsonMessage:
                             const.SERVICE_DATA.append(item)
-                        const.MSG_TO_RECORD.append(msg)
+                        const.MSG_TO_RECORD.append(data)
 
             if len(messages) > 0:
                 logger.get_logger().info('data: %s' % str(messages))

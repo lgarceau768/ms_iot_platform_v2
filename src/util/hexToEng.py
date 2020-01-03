@@ -146,8 +146,9 @@ async def interpret():
                     if canID == '0x08':
                         if message[5] != '80':      
                             # test without the hygiene in progress variable being used
-                            #hygieneInProgress = True                      
-                            if message[4] == '88' and message[5] == '01' and not hygieneInProgress:
+                            #hygieneInProgress = True 
+                            # message[4] == '88' and message[5] == '01' and not hygieneInProgress                     
+                            if message[4] not in ('00','01','09') and not hygieneInProgress:
                                 now = datetime.datetime.now().isoformat()
                                 hygieneInProgress = True
                                 hygType = ['hygieneType', 'in_progress']
@@ -160,7 +161,8 @@ async def interpret():
                                     messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
                                     messages.append([['hygieneEvent', 'started']])
                                     already = True
-                            if message[5] == '00' and hygieneInProgress and (message[4] == '09' or message[4] == '01'):
+                            # if message[5] == '00'        
+                            if hygieneInProgress and (message[4] == '09' or message[4] == '01'):
                                 now = datetime.datetime.now().isoformat()
                                 hygieneType = ''
                                 if message[4] == '09':

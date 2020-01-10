@@ -155,12 +155,14 @@ async def interpret():
                                 hygStart = ['hygieneStart', now]
                                 hygStop = ['hygieneStop', '']
                                 # test
-                                hygieneData.setHygieneInfo(now, 'no_mem', 'no_mem')
-                                hygLast = ['hygieneLast','0']
-                                if not already:
-                                    messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
-                                    messages.append([['hygieneEvent', 'started']])
-                                    already = True
+                                oldData = hygieneData.getHygieneInfo()
+                                if oldData[0] != 'no_mem' and oldData[2] == '':                                
+                                    hygieneData.setHygieneInfo(now, 'no_mem', 'no_mem')
+                                    hygLast = ['hygieneLast','0']
+                                    if not already:
+                                        messages.append([timestamp, hygLast, hygType, hygStart, hygStop])
+                                        messages.append([['hygieneEvent', 'started']])
+                                        already = True
                             # if message[5] == '00'        
                             if hygieneInProgress and (message[4] == '09' or message[4] == '01'):
                                 now = datetime.datetime.now().isoformat()

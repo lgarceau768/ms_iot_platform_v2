@@ -34,7 +34,7 @@ ip -br link > $(hostname)macinfo.log
 mv $(hostname)macinfo.log /home/User1/out/
 
 cd /home/User1/
-git clone https://lgarceau768:Spook524*@github.com/lgarceau768/msV2.git
+git clone https://AAAAAAAAA:AAAAAA*@github.com/lgarceau768/msV2.git
 
 # remove the old ms platform
 rm -rf /home/User1/connected-treatment-units

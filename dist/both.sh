@@ -68,7 +68,7 @@ echo "Removed Root Certs"
 
 yes | sudo apt-get install git
 cd /home/User1/
-git clone https://lgarceau768:Spook524*@github.com/lgarceau768/msV2.git
+git clone https://AAAAAAAAA:AAAAAA*@github.com/lgarceau768/msV2.git
 
 # remove the old ms platform
 rm -rf /home/User1/connected-treatment-units
@@ -114,7 +114,7 @@ deviceName=$(hostname)
 
 # download the tool
 cd /home/User1/
-git clone https://lgarceau768:Spook524*@github.com/lgarceau768/ms_aws_monitor.git
+git clone https://AAAAAAAAA:AAAAAA*@github.com/lgarceau768/ms_aws_monitor.git
 
 # install the tool
 echo '#!/bin/bash' > /home/User1/ms_aws_monitor/src/runService.sh

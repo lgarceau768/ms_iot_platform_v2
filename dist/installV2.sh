@@ -38,11 +38,11 @@ rm -rf /home/User1/connected-treatment-units
 
 #MSV2
 cd /home/User1/
-git clone https://lgarceau768:Spook524*@github.com/lgarceau768/msV2.git
+git clone https://AAAAAAAAA:AAAAAA*@github.com/lgarceau768/msV2.git
 
 #Monitor
 cd /home/User1
-git clone https://lgarceau768:Spook524*@github.com/lgarceau768/ms_aws_monitor.git
+git clone https://AAAAAAAAA:AAAAAA*@github.com/lgarceau768/ms_aws_monitor.git
 
 # generate openssl cert
 #Openssl variables
